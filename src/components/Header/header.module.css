@@ -1,9 +1,11 @@
 .header {
   background: black;
   display: flex;
-  padding:  0 5rem;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 75px;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .header .login {
