@@ -1,0 +1,28 @@
+
+.wall {
+  width: 800px;
+  height: 8000px;
+  border: 1px solid black;
+}
+
+.wall .post {
+  margin-top: 20px;
+  background-color: royalblue;
+}
+
+.wall .post .footer{
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.wall .post .bot{
+  padding: 20px;
+  background-color: white;
+}
+
+.wall .post .bot .comment{
+  margin: 1rem;
+  background-color: royalblue;
+}

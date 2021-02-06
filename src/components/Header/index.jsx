@@ -70,4 +70,4 @@ export default compose(
       }
     }),
   )
-)(Header)
+)(Header);

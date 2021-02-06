@@ -4,15 +4,3 @@
   overflow-y: auto;
   
 }
-
-.main .wall {
-  width: 800px;
-  height: 8000px;
-  background-color: lavender;
-}
-
-.main .wall .post {
-  margin-top: 20px;
-  height: 100px;
-  background-color: royalblue;
-}
