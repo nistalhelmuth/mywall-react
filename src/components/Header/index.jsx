@@ -15,7 +15,7 @@ const Header = ({
     <img src="assets/logo.png" alt="headerLogo" />
     <form
       className={styles.login}
-      onSubmit={handleSubmit(this.doLogin.bind(this))}
+      onSubmit={handleSubmit(doLogin.bind(this))}
     >
       <Field
         name="email"
@@ -27,6 +27,7 @@ const Header = ({
         component={FormInput}
         placeholder="password"
       />
+      <button type="submit">Login </button>
     </form>
   </div>
 );
@@ -41,8 +42,8 @@ export default compose(
       authorized: true, 
     }),
     (dispatch) => ({
-      doLogin() {
-        console.log('login')
+      doLogin(values) {
+        console.log('login', values)
       }
     }),
   )
