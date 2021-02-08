@@ -1,5 +1,19 @@
 
 .wall {
   width: 800px;
-  height: 8000px;
+  margin: 20px;
+  background-color: royalblue;
 }
+
+.wall .form {
+  display: flex;
+  margin: 10px;
+}
+
+.wall .form button{
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Comment from '../Comment'
 import styles from './post.module.css';
 
@@ -6,12 +7,15 @@ const Post = ({
   content,
   dateCreated,
   comments,
+  created_by,
 }) => (
   <div className={styles.post}>
-    <img
-      src="assets/defaultProfile.png"
-      alt="profileImage"
-    />
+    <Link to={`/profile/${created_by.id}`}>
+      <img
+        src="assets/defaultProfile.png"
+        alt="profileImage"
+      />
+    </Link>
     <div className={styles.content}>
       <p className={styles.text}>
         {content}
@@ -35,6 +39,7 @@ const Post = ({
                 <Comment
                   content={comment.content}
                   dateCreated={comment.dateCreated}
+                  created_by={comment.created_by}
                 />
               ))
             }

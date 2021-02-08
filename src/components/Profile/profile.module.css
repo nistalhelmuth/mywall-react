@@ -3,12 +3,22 @@
 }
 
 .profile .information {
-  height: 300px;
-  width: 300px;
-  background: rebeccapurple;
+  width: 250px;
+  border: black solid 1px;
+  padding: 20px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile .information .profileImage {
+  height: 125px;
+  width: 125px;
+  align-self: center;
 }
 
 .profile .friends {
+  margin: 20px;
   height: 600px;
   width: 300px;
   background: blanchedalmond;

@@ -32,7 +32,7 @@ export default connect(
   }),
   (dispatch) => ({
     fetchAllPost() {
-      dispatch(postActions.fetchAllPosts())
+      dispatch(postActions.fetchAllPosts({}));
     },
     commentPost(values){
       console.log('create comment', values)

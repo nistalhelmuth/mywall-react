@@ -18,7 +18,7 @@ const options = [
   },
   {
     word: 'profile',
-    path: '/profile',
+    path: '/profile/:profileId',
     component: Profile,
   },
   {

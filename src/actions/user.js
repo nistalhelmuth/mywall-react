@@ -88,26 +88,42 @@ export const registerUserDecline = ({
 });
 
 export const fetchProfileInfo = ({
-  id,
+  profileId,
 }) => ({
   type: types.FETCHED_USER_PROFILE,
   payload: {
-    id,
+    profileId,
   },
 });
 
 export const fetchProfileInfoConfirm = ({
-
+  profileId,
+  email,
+  name,
+  city,
+  visitors,
+  genre,
+  feeling,
+  dateCreated,
 }) => ({
   type: types.FETCHED_USER_PROFILE_SUCCEEDED,
   payload: {
-
+    profileId,
+    email,
+    name,
+    city,
+    visitors,
+    genre,
+    feeling,
+    dateCreated,
   },
 });
 
-export const fetchProfileInfoDecline = () => ({
+export const fetchProfileInfoDecline = ({
+  message,
+}) => ({
   type: types.FETCHED_USER_PROFILE_FAILED,
   payload: {
-
+    message,
   },
 });

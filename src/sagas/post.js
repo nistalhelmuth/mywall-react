@@ -10,24 +10,22 @@ import * as postTypes from '../types/post';
 import * as postActions from '../actions/post';
 import * as postApi from '../apis/post';
 
-function* postFetcher() {
-  /**
+function* postFetcher(action) {
   const {
     payload: {
-      email,
-      password,
+      profileId,
     },
   } = action;
-   */
-  try {
+   try {
     const response = yield call(
       postApi.getAllPosts,
+      profileId
     );
     yield put(postActions.fetchAllPostsConfirm({
       allPosts: response,
     }));
   } catch (error) {
-    yield put(postActions.fetchAllPostByUserDecline({
+    yield put(postActions.fetchAllPostsDecline({
       message: error,
     }));
   }

@@ -1,9 +1,11 @@
 import * as types from '../types/post';
 
-export const fetchAllPosts = () => ({
+export const fetchAllPosts = ({
+  profileId
+}) => ({
   type: types.FETCHED_ALL_POSTS,
   payload: {
-
+    profileId,
   },
 });
 
@@ -16,10 +18,12 @@ export const fetchAllPostsConfirm = ({
   },
 });
 
-export const fetchAllPostsDecline = () => ({
+export const fetchAllPostsDecline = ({
+  message,
+}) => ({
   type: types.FETCHED_ALL_POSTS_FAILED,
   payload: {
-
+    message,
   },
 });
 
@@ -81,27 +85,6 @@ export const commentPostConfirm = () => ({
 
 export const commentPostDecline = () => ({
   type: types.COMMENTED_POST_FAILED,
-  payload: {
-
-  },
-});
-
-export const fetchAllPostByUser = () => ({
-  type: types.FETCHED_ALL_POST_BY_USER,
-  payload: {
-
-  },
-});
-
-export const fetchAllPostByUserConfirm = () => ({
-  type: types.FETCHED_ALL_POST_BY_USER_SUCCEEDED,
-  payload: {
-
-  },
-});
-
-export const fetchAllPostByUserDecline = () => ({
-  type: types.FETCHED_ALL_POST_BY_USER_FAILED,
   payload: {
 
   },
