@@ -7,7 +7,6 @@ const FormTextArea = ({
   placeholder,
   type,
   value,
-  icon,
 }) => (
   <textarea
     type={type}
@@ -26,7 +25,6 @@ FormTextArea.propTypes = {
   placeholder: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
 };
 
 export default FormTextArea;

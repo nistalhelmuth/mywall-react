@@ -15,6 +15,9 @@ const Comment = ({
       />
     </Link>
     <div className={styles.content}>
+      <p className={styles.text}>
+        {created_by.name}
+      </p>
       <p>
         {content}
       </p>

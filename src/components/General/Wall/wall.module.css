@@ -5,6 +5,11 @@
   background-color: royalblue;
 }
 
+.wall .loading {
+  background-color: white;
+  height: 100px;
+}
+
 .wall .form {
   display: flex;
   margin: 10px;
