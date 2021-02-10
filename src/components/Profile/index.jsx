@@ -29,6 +29,7 @@ class Profile extends Component {
   render() {
     const {
       posts,
+      postLoading,
       userInformation: {
         email,
         name,
@@ -37,6 +38,12 @@ class Profile extends Component {
         genre,
         feeling,
         dateCreated,
+      },
+      authId,
+      match: {
+        params: {
+          profileId,
+        },
       },
     } = this.props;
     return (
@@ -69,7 +76,11 @@ class Profile extends Component {
             date joined: {dateCreated}
           </p>
         </div>
-        <Wall posts={posts}/>
+        <Wall
+          posts={posts}
+          enabledPost={authId === parseInt(profileId)}
+          loading={postLoading}
+        />
         <div className={styles.friends}>
 
         </div>
@@ -83,8 +94,10 @@ export default compose(
   withRouter,
   connect(
     (state) => ({
+      postLoading: selectors.getPostLoading(state),
       posts: selectors.getAllPosts(state), 
       userInformation: selectors.getUserInformation(state),
+      authId: selectors.getAuthId(state),
     }),
     (dispatch) => ({
       fetchAllPostForUser(profileId) {

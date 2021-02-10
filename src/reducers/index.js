@@ -1,13 +1,19 @@
 import { combineReducers } from 'redux';
 import { reducer as reducerForm } from 'redux-form';
+import authReducer, * as fromAuthReducer from './auth';
 import postReducer, * as fromPostReducer from './post';
 import userReducer, * as fromUserReducer from './user';
 
 export default combineReducers({
   form: reducerForm,
+  authReducer,
   postReducer,
   userReducer,
 });
+
+//auth
+export const getUserToken = (state) => fromAuthReducer.getUserToken(state.authReducer);
+export const getAuthId= (state) => fromAuthReducer.getAuthId(state.authReducer);
 
 //post
 export const getPostLoading = (state) => fromPostReducer.getPostLoading(state.postReducer);
