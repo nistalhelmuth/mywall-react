@@ -56,6 +56,7 @@ function* postCreator(action) {
   const {
     payload: {
       content,
+      randomId,
     },
   } = action;
   const token = yield select(getUserToken);
@@ -67,12 +68,15 @@ function* postCreator(action) {
     );
     yield put(postActions.createPostConfirm({
       id: response.id,
+      randomId,
       content: response.content,
       date_created: response.date_created,
       created_by: response.created_by,
-    }));
+    })); 
   } catch (error) {
+    console.log(error);
     yield put(postActions.createPostDecline({
+      randomId,
       message: error,
     }));
   }

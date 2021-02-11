@@ -38,13 +38,15 @@ class Post extends Component {
       handleSubmit,
       createComment,
       commentLoading,
+      authId,
+      authName,
     } = this.props;
     const {
       showComments,
     } = this.state;
     return(
       <div className={styles.post}>
-        <Link to={`/profile/${created_by.id}`}>
+        <Link to={`/profile/${created_by ? created_by.id : authId}`}> 
           <img
             src="assets/defaultProfile.png"
             alt="profileImage"
@@ -52,17 +54,17 @@ class Post extends Component {
         </Link>
         <div className={styles.content}>
           <p className={styles.text}>
-            {created_by.name}
+            {created_by ? created_by.name : authName}
           </p>
           <p className={styles.text}>
             {content}
           </p>
           <p>
-            {dateCreated}
+            {created_by ? dateCreated : "Creating..."}
           </p>
           <div className={styles.footer}>
             {
-              !showComments && (
+              !showComments && created_by && (
                 <button onClick={this.loadComments.bind(this)}>
                   View Comments
                 </button>
@@ -71,32 +73,34 @@ class Post extends Component {
           </div>
           {
             showComments && (
-              <form
-                className={styles.form}
-                onSubmit={handleSubmit(createComment.bind(this))}
-              >
-                <button type="submit">Comment</button>
-                <Field
-                  name="content"
-                  component={FormTextArea}
-                  placeholder="write something..."
-                />
-              </form>
-            )
-          }
-          {
-            comments && (
-              <div className={styles.bot}>
+              <>
+                <form
+                  className={styles.form}
+                  onSubmit={handleSubmit(createComment.bind(this))}
+                >
+                  <button type="submit">Comment</button>
+                  <Field
+                    name="content"
+                    component={FormTextArea}
+                    placeholder="write something..."
+                  />
+                </form>
                 {
-                  comments.map((comment) => (
-                    <Comment
-                      content={comment.content}
-                      dateCreated={comment.dateCreated}
-                      created_by={comment.created_by}
-                    />
-                  ))
+                 comments && (
+                    <div className={styles.bot}>
+                      {
+                        comments.map((comment) => (
+                          <Comment
+                            content={comment.content}
+                            dateCreated={comment.dateCreated}
+                            created_by={comment.created_by}
+                          />
+                        ))
+                      }
+                    </div>
+                  )
                 }
-              </div>
+              </>
             )
           }
           {
@@ -120,6 +124,8 @@ export default compose(
     (state, { postId }) => ({
       commentLoading: selectors.getCommentsLoading(state),
       comments: selectors.getAllCommentsByPost(state, postId),
+      authId: selectors.getAuthId(state),
+      authName: selectors.getAuthName(state),
     }),
     (dispatch, { postId }) => ({
       fetchComments(postId){

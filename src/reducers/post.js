@@ -42,6 +42,52 @@ const post = (state = postDefaultState, action) => {
 
 const byId = (state={}, action) => {
   switch (action.type) {
+    case postTypes.CREATED_POST: {
+      const {
+        payload: {
+          content,
+          randomId,
+        },
+      } = action;
+      const postByIdState = {
+        ...state,
+        [randomId]: {
+          content,
+        }
+      }
+      return postByIdState;
+    }
+    case postTypes.CREATED_POST_SUCCEEDED: {
+      const {
+        payload: {
+          id,
+          randomId,
+          content,
+          date_created,
+          created_by,
+        },
+      } = action;
+      const postByIdState = {
+        ...state,
+        [randomId]: {
+          id,
+          content,
+          date_created,
+          created_by,
+        }
+      }
+      return postByIdState;
+    }
+    case postTypes.CREATED_POST_FAILED: {
+      const {
+        payload: {
+          randomId,
+        },
+      } = action;
+      const postByIdState = {...state};
+      delete postByIdState[randomId];
+      return postByIdState;
+    }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {
         payload: {
@@ -98,15 +144,25 @@ const byId = (state={}, action) => {
   }
 }
 
-/**
-const state = {
-  posts: [],
-  comments: [],
-}
- */
-
 const order = (state=[], action) => {
   switch (action.type) {
+    case postTypes.CREATED_POST: {
+      const {
+        payload: {
+          randomId,
+        },
+      } = action;
+      const postOrderState = [
+        randomId,
+        ...state
+      ]
+      return postOrderState;
+    }
+    case postTypes.CREATED_POST_FAILED: {
+      const postOrderState = [...state];
+      postOrderState.shift();
+      return postOrderState;
+    }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {
         payload: {
@@ -133,5 +189,5 @@ export const getPostLoading = (state) => state.post.loadingPosts;
 export const getCommentsLoading = (state) => state.post.loadingComments;
 export const getAllPosts = (state) => state.order.map((id) => getPostById(state, id));
 export const getPostById = (state, id) => state.byId[id] || undefined; 
-export const getAllCommentsByPost = (state, postId) => state.byId[postId].comments;
+export const getAllCommentsByPost = (state, postId) => state.byId[postId] ? state.byId[postId].comments : undefined;
 

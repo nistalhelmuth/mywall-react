@@ -27,12 +27,13 @@ class Main extends Component {
     const {
       posts,
       postLoading,
+      authId,
     } = this.props;
     return(
       <div className={styles.main} onScroll={this.scrollCheck.bind(this)}>
         <Wall
           posts={posts}
-          enabledPost
+          enabledPost={authId}
           loading={postLoading}
         />
       </div>
@@ -45,6 +46,7 @@ export default connect(
   (state) => ({
     postLoading: selectors.getPostLoading(state),
     posts: selectors.getAllPosts(state),
+    authId: selectors.getAuthId(state),
   }),
   (dispatch) => ({
     fetchAllPost() {

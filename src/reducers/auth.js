@@ -2,8 +2,8 @@
 
 const stateShape = {
   id: 5,
-  username: undefined,
-  token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6ImFsYXRvcnRyaXhAbGl2ZS5jb20iLCJleHAiOjE2MTI5MDY2NzYsImVtYWlsIjoiYWxhdG9ydHJpeEBsaXZlLmNvbSJ9._nv1VFbjH2OUkd2zDbCiDzzwsMmKmP33hKrLdDXX-aE",
+  name: "Helmuth",
+  token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6ImFsYXRvcnRyaXhAbGl2ZS5jb20iLCJleHAiOjE2MTMwMDI0MjYsImVtYWlsIjoiYWxhdG9ydHJpeEBsaXZlLmNvbSJ9.2r49K6TXziqaJVnzcbycCGF1Stov_olo-JBcbsFdXWU",
   authenticated: false,
 };
 
@@ -38,3 +38,4 @@ export default auth;
 
 export const getUserToken = (state) => state.token;
 export const getAuthId = (state) => state.id;
+export const getAuthName = (state) => state.name;

@@ -13,7 +13,8 @@ export default combineReducers({
 
 //auth
 export const getUserToken = (state) => fromAuthReducer.getUserToken(state.authReducer);
-export const getAuthId= (state) => fromAuthReducer.getAuthId(state.authReducer);
+export const getAuthId = (state) => fromAuthReducer.getAuthId(state.authReducer);
+export const getAuthName = (state) => fromAuthReducer.getAuthName(state.authReducer);
 
 //post
 export const getPostLoading = (state) => fromPostReducer.getPostLoading(state.postReducer);

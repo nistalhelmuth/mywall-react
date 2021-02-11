@@ -1,4 +1,5 @@
 import * as types from '../types/post';
+import { v4 as uuidv4 } from 'uuid';
 
 export const fetchAllPosts = ({
   profileId
@@ -33,11 +34,13 @@ export const createPost = ({
   type: types.CREATED_POST,
   payload: {
     content,
+    randomId: uuidv4(),
   },
 });
 
 export const createPostConfirm = ({
   id,
+  randomId,
   content,
   date_created,
   created_by,
@@ -48,15 +51,18 @@ export const createPostConfirm = ({
     content,
     date_created,
     created_by,
+    randomId,
   },
 });
 
 export const createPostDecline = ({
+  randomId,
   message,
 }) => ({
   type: types.CREATED_POST_FAILED,
   payload: {
     message,
+    randomId,
   },
 });
 
