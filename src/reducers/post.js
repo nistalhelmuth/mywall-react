@@ -53,6 +53,8 @@ const byId = (state={}, action) => {
         ...state,
         [randomId]: {
           content,
+          commentsById: {},
+          commentsOrder: [],
         }
       }
       return postByIdState;
@@ -88,6 +90,79 @@ const byId = (state={}, action) => {
       delete postByIdState[randomId];
       return postByIdState;
     }
+    case postTypes.COMMENTED_POST: {
+      const {
+        payload: {
+          postId,
+          content,
+          randomId,
+        } 
+      } = action;
+      const oldPost = state[postId];
+      const postByIdState = {
+        ...state,
+        [postId]: {
+          ...oldPost,
+          
+          commentsById: {
+            [randomId] : {
+              content,
+            },
+            ...oldPost.commentsById,
+          },
+          commentsOrder: [
+            randomId,
+            ...oldPost.commentsOrder,
+          ],
+        }
+      }
+      return postByIdState;
+    }
+    case postTypes.COMMENTED_POST_SUCCEEDED: {
+      const {
+        payload: {
+          postId,
+          content,
+          createdBy,
+          dateCreated,
+          randomId,
+        } 
+      } = action;
+      const oldPost = state[postId];
+      const date = new Date(dateCreated);
+      const postByIdState = {
+        ...state,
+        [postId]: {
+          ...oldPost,
+          commentsById: {
+            ...state[postId].commentsById,
+            [randomId] : {
+              content,
+              id: postId,
+              createdBy,
+              dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+            },
+          },
+        }
+      }
+      return postByIdState;
+    }
+    case postTypes.COMMENTED_POST_FAILED: {
+      const {
+        payload: {
+          postId,
+          randomId
+        } 
+      } = action;
+      const oldPost = state[postId];
+      delete oldPost.commentsById[randomId];
+      oldPost.commentsOrder.shift();
+      const postByIdState = {
+        ...state,
+        [postId]: oldPost,
+      }
+      return postByIdState;
+    }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {
         payload: {
@@ -101,16 +176,8 @@ const byId = (state={}, action) => {
           ...postByIdState[post.id],
           ...post,
           dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
-
-          /**
-          comments: post.comments && Object.values(post.comments).map((comment) => {
-            const date = new Date(comment.date_created);
-            return {
-              ...comment,
-              dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
-            }
-          })
-           */
+          commentsById: {},
+          commentsOrder: [],
         }
       });
       return postByIdState;
@@ -123,17 +190,22 @@ const byId = (state={}, action) => {
         },
       } = action;
       const oldPost = state[postId];
+      const commentsById = {}
+      Object.values(allComments).forEach((comment) => {
+        const date = new Date(comment.date_created);
+        commentsById[comment.id] = {
+          ...commentsById[comment.id],
+          ...comment,
+          dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+        }
+      });;
+      const commentsOrder = Object.values(allComments).map((comments) => comments.id);
       const postByIdState = {
         ...state,
         [postId]: {
           ...oldPost,
-          comments: Object.values(allComments).map((comment) => {
-            const date = new Date(comment.date_created);
-            return {
-              ...comment,
-              dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
-            }
-          }),
+          commentsById,
+          commentsOrder,
         }
       }
       return postByIdState;
@@ -189,5 +261,10 @@ export const getPostLoading = (state) => state.post.loadingPosts;
 export const getCommentsLoading = (state) => state.post.loadingComments;
 export const getAllPosts = (state) => state.order.map((id) => getPostById(state, id));
 export const getPostById = (state, id) => state.byId[id] || undefined; 
-export const getAllCommentsByPost = (state, postId) => state.byId[postId] ? state.byId[postId].comments : undefined;
 
+export const getCommentById = (state, postId, commentId) => state.byId[postId] ? state.byId[postId].commentsById[commentId] : undefined;
+export const getAllCommentsByPost = (state, postId) => 
+  state.byId[postId] ? (
+      state.byId[postId].commentsOrder.map((commentId) => getCommentById(state, postId, commentId))
+  ) : ( undefined );
+    

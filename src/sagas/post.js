@@ -74,7 +74,6 @@ function* postCreator(action) {
       created_by: response.created_by,
     })); 
   } catch (error) {
-    console.log(error);
     yield put(postActions.createPostDecline({
       randomId,
       message: error,
@@ -87,6 +86,7 @@ function* commentCreator(action) {
     payload: {
       postId,
       content,
+      randomId,
     },
   } = action;
   const token = yield select(getUserToken);
@@ -98,14 +98,19 @@ function* commentCreator(action) {
       content
     );
     yield put(postActions.commentPostConfirm({
+      postId,
       id: response.id,
       content: response.content,
-      date_created: response.date_created,
-      created_by: response.created_by,
+      dateCreated: response.date_created,
+      createdBy: response.created_by,
+      randomId,
     }));
   } catch (error) {
+    console.log(error);
     yield put(postActions.commentPostDecline({
+      postId,
       message: error,
+      randomId,
     }));
   }
 }

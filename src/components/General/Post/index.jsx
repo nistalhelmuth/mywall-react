@@ -44,6 +44,8 @@ class Post extends Component {
     const {
       showComments,
     } = this.state;
+    console.log(comments)
+  
     return(
       <div className={styles.post}>
         <Link to={`/profile/${created_by ? created_by.id : authId}`}> 
@@ -86,7 +88,7 @@ class Post extends Component {
                   />
                 </form>
                 {
-                 comments && (
+                 comments && comments.length ? (
                     <div className={styles.bot}>
                       {
                         comments.map((comment) => (
@@ -98,6 +100,10 @@ class Post extends Component {
                         ))
                       }
                     </div>
+                  ) : (
+                    <p>
+                      be the first to comment :)
+                    </p>
                   )
                 }
               </>

@@ -134,21 +134,36 @@ export const commentPost = ({
   payload: {
     postId,
     content,
+    randomId: uuidv4(),
   },
 });
 
-export const commentPostConfirm = () => ({
+export const commentPostConfirm = ({
+  postId,
+  randomId,
+  content,
+  createdBy,
+  dateCreated,
+}) => ({
   type: types.COMMENTED_POST_SUCCEEDED,
   payload: {
-
+    postId,
+    content,
+    randomId,
+    createdBy,
+    dateCreated,
   },
 });
 
 export const commentPostDecline = ({
+  postId,
+  randomId,
   message,
 }) => ({
   type: types.COMMENTED_POST_FAILED,
   payload: {
+    postId,
+    randomId,
     message,
   },
 });

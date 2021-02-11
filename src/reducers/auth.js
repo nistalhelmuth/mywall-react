@@ -3,7 +3,7 @@
 const stateShape = {
   id: 5,
   name: "Helmuth",
-  token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6ImFsYXRvcnRyaXhAbGl2ZS5jb20iLCJleHAiOjE2MTMwMDI0MjYsImVtYWlsIjoiYWxhdG9ydHJpeEBsaXZlLmNvbSJ9.2r49K6TXziqaJVnzcbycCGF1Stov_olo-JBcbsFdXWU",
+  token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6ImFsYXRvcnRyaXhAbGl2ZS5jb20iLCJleHAiOjE2MTMwMTA0MDksImVtYWlsIjoiYWxhdG9ydHJpeEBsaXZlLmNvbSJ9.Q-smBcIVqFhc7Fzuxi2ux7heWaRed6dO6i7NEuv9gEQ",
   authenticated: false,
 };
 

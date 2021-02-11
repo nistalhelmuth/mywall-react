@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { compose } from 'recompose';
 import { reduxForm, Field  } from 'redux-form';
 import { connect } from "react-redux";
@@ -31,7 +31,7 @@ const Wall = ({
       )
     }
     {
-      posts ? (
+      posts && posts.length ? (
         <>
           {
             posts.map((post) => (
