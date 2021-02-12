@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from 'recompose';
 import { reduxForm, Field  } from 'redux-form';
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
@@ -10,7 +9,7 @@ import * as selectors from '../../../reducers';
 import styles from './post.module.css';
 
 
-class Post extends Component {
+class PostCore extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -122,29 +121,28 @@ class Post extends Component {
   }
 }
 
-export default compose(
-  reduxForm({
-    form: 'commentForm',
+const Post = reduxForm({
+  form: 'commentForm',
+})(PostCore)
+
+export default connect(
+  (state, { postId }) => ({
+    commentLoading: selectors.getCommentsLoading(state),
+    comments: selectors.getAllCommentsByPost(state, postId),
+    authId: selectors.getAuthId(state),
+    authName: selectors.getAuthName(state),
   }),
-  connect(
-    (state, { postId }) => ({
-      commentLoading: selectors.getCommentsLoading(state),
-      comments: selectors.getAllCommentsByPost(state, postId),
-      authId: selectors.getAuthId(state),
-      authName: selectors.getAuthName(state),
-    }),
-    (dispatch, { postId }) => ({
-      fetchComments(postId){
-        dispatch(postActions.fetchAllComments({
-          postId,
-        }))
-      },
-      createComment(values){
-        dispatch(postActions.commentPost({
-          postId,
-          content: values.content,
-        }))
-      }
-    }),
-  )
+  (dispatch, { postId }) => ({
+    fetchComments(postId){
+      dispatch(postActions.fetchAllComments({
+        postId,
+      }))
+    },
+    createComment(values){
+      dispatch(postActions.commentPost({
+        postId,
+        content: values.content,
+      }))
+    }
+  }),
 )(Post);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Wall from '../General/Wall';
 import { connect } from "react-redux";
 import * as postActions from '../../actions/post';
@@ -30,7 +31,11 @@ class Main extends Component {
       authId,
     } = this.props;
     return(
-      <div className={styles.main} onScroll={this.scrollCheck.bind(this)}>
+      <div
+        className={styles.main}
+        onScroll={this.scrollCheck.bind(this)}
+        data-test="mainComponent"
+      >
         <Wall
           posts={posts}
           enabledPost={authId}
@@ -40,6 +45,13 @@ class Main extends Component {
     );
   }
 
+}
+
+Main.propTypes = {
+  posts: PropTypes.array,
+  postLoading: PropTypes.bool,
+  authId: PropTypes.number,
+  fetchAllPost: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -52,11 +64,5 @@ export default connect(
     fetchAllPost() {
       dispatch(postActions.fetchAllPosts({}));
     },
-    commentPost(values){
-      console.log('create comment', values)
-    },
-    createPost(values) {
-      console.log('create post', values)
-    }
   }),
 )(Main);

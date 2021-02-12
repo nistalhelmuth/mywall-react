@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { reduxForm, Field  } from 'redux-form';
 import {
@@ -8,9 +8,9 @@ import {
 import FormInput from '../General/FormInput';
 import styles from './header.module.css';
 
-const Header = ({
+const HeaderCore = ({
   authorized,
-  userData,
+  // userData,
   doLogin,
   handleSubmit,
 }) => (
@@ -18,6 +18,8 @@ const Header = ({
     <Link
       to="/"
       className={styles.logo}
+      data-test="profileComponent"
+
     >
       <img src="assets/logo.png" alt="headerLogo"/>
     </Link>
@@ -31,7 +33,7 @@ const Header = ({
       ) : (
         <form
           className={styles.login}
-          onSubmit={handleSubmit(doLogin.bind(this))}
+          //onSubmit={handleSubmit(doLogin.bind(this))}
         >
           <Field
             name="email"
@@ -55,19 +57,25 @@ const Header = ({
   </div>
 );
 
+/**
+Header.propTypes = {
+  //authorized: PropTypes.bool,
+  //doLogin: PropTypes.func.isRequired,
+  //handleSubmit: PropTypes.func.isRequired,
+}
+ */
 
-export default compose(
-  reduxForm({
-    form: 'loginForm',
+const Header = reduxForm({
+  form: 'loginForm',
+})(HeaderCore)
+
+export default connect(
+  (state) => ({
+    authorized: false, 
   }),
-  connect(
-    (state) => ({
-      authorized: false, 
-    }),
-    (dispatch) => ({
-      doLogin(values) {
-        console.log('login', values)
-      }
-    }),
-  )
-)(Header);
+  (dispatch) => ({
+    doLogin(values) {
+      console.log('login', values)
+    }
+  }),
+)(Header)

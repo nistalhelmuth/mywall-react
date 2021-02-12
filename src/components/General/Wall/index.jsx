@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose } from 'recompose';
 import { reduxForm, Field  } from 'redux-form';
 import { connect } from "react-redux";
 import FormTextArea from '../FormTextArea';
@@ -7,7 +6,7 @@ import Post from '../Post'
 import * as postActions from '../../../actions/post';
 import styles from './wall.module.css';
 
-const Wall = ({
+const WallCore = ({
   posts,
   createPost,
   handleSubmit,
@@ -61,18 +60,17 @@ const Wall = ({
   </div>
 );
 
-export default compose(
-  reduxForm({
-    form: 'postForm',
+const Wall = reduxForm({
+  form: 'postForm',
+})(WallCore)
+
+export default connect(
+  undefined,
+  (dispatch) => ({
+    createPost(values){
+      dispatch(postActions.createPost({
+        content: values.content
+      }))
+    }
   }),
-  connect(
-    undefined,
-    (dispatch) => ({
-      createPost(values){
-        dispatch(postActions.createPost({
-          content: values.content
-        }))
-      }
-    }),
-  )
 )(Wall);

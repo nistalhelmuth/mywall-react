@@ -1,14 +1,18 @@
-
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { findByTestAtrr, checkProps, testStore } from '../utils';
-import Header from '../../components/Header';
+import Main from '../../components/Main';
 
 const setUp = (initialState={}) => {
   const store = testStore(initialState);
-  //const wrapper = shallow(<Header store={store} />);
-  const wrapper = shallow(<Header store={store} />);
+  const wrapper = shallow(<Main store={store} />).childAt(0).dive();
+  return wrapper;
+};
+
+const setUp2 = (initialState={}) => {
+  const store = testStore(initialState);
+  const wrapper = shallow(<Main store={store} />);
   return wrapper;
 };
 
@@ -21,26 +25,29 @@ describe('Header Component', () => {
     });
   
     it('Should render without errors', () => {
-      const wrapper = findByTestAtrr(component, 'headerComponent');
-      expect(1).toBe(1);
+      const wrapper = findByTestAtrr(component, 'mainComponent');
+      expect(wrapper.length).toBe(1);
     });
   });
 
 
-  /**
   describe('Checking PropTypes', () => {
+    let component;
+    beforeEach(() => {
+      component = setUp2(); 
+    });
 
     it('Should not throw a warning', () => {
       const expectedProps = {
-        authorized: 1,
-        doLogin: undefined,
-        handleSubmit: undefined,
+        posts: [],
+        postLoading: false,
+        authId: 123,
+        fetchAllPost: jest.fn(),
       };
-      const propsErr = checkProps(Header, expectedProps)
+      console.log(component.propTypes, expectedProps)
+      const propsErr = checkProps(component, expectedProps)
       expect(propsErr).toBeUndefined();
 
     });
   });
-   */
-
 });

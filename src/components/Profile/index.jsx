@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {
   withRouter,
 } from "react-router-dom";
-import { compose } from 'recompose';
 import Wall from '../General/Wall';
 import * as userActions from '../../actions/user';
 import * as postActions from '../../actions/post';
@@ -90,32 +89,30 @@ class Profile extends Component {
 }
 
 
-export default compose(
-  withRouter,
-  connect(
-    (state) => ({
-      postLoading: selectors.getPostLoading(state),
-      posts: selectors.getAllPosts(state), 
-      userInformation: selectors.getUserInformation(state),
-      authId: selectors.getAuthId(state),
-    }),
-    (dispatch) => ({
-      fetchAllPostForUser(profileId) {
-        dispatch(postActions.fetchAllPosts({
-          profileId,
-        }));
-      },
-      fetchProfileInfo(profileId) {
-        dispatch(userActions.fetchProfileInfo({
-          profileId,
-        }));
-      },
-      commentPost(values){
-        console.log('create comment', values)
-      },
-      createPost(values) {
-        console.log('create post', values)
-      }
-    }),
-  )
-)(Profile);
+export default withRouter(
+connect(
+  (state) => ({
+    postLoading: selectors.getPostLoading(state),
+    posts: selectors.getAllPosts(state), 
+    userInformation: selectors.getUserInformation(state),
+    authId: selectors.getAuthId(state),
+  }),
+  (dispatch) => ({
+    fetchAllPostForUser(profileId) {
+      dispatch(postActions.fetchAllPosts({
+        profileId,
+      }));
+    },
+    fetchProfileInfo(profileId) {
+      dispatch(userActions.fetchProfileInfo({
+        profileId,
+      }));
+    },
+    commentPost(values){
+      console.log('create comment', values)
+    },
+    createPost(values) {
+      console.log('create post', values)
+    }
+  }),
+)(Profile));
