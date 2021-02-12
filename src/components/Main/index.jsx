@@ -7,7 +7,15 @@ import * as selectors from '../../reducers';
 import styles from './main.module.css';
 
 export const customPropTypes = {
-  posts: PropTypes.array.isRequired,
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    content: PropTypes.string,
+    dateCreated: PropTypes.string,
+    created_by: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+  })),
   postLoading: PropTypes.bool,
   authId: PropTypes.number,
   fetchAllPost: PropTypes.func.isRequired,
