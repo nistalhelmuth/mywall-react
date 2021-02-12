@@ -53,7 +53,8 @@
     ],
     "plugins": [
       "@babel/plugin-transform-modules-commonjs",
-      "@babel/plugin-transform-react-jsx"
+      "@babel/plugin-transform-react-jsx",
+      "@babel/plugin-proposal-class-properties"
     ]
   },
   "eslintConfig": {
@@ -75,6 +76,7 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "check-prop-types": "^1.1.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",

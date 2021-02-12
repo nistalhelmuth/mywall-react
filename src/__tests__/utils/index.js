@@ -1,5 +1,5 @@
 import checkPropTypes from 'check-prop-types';
-import { applyMiddleware, createStore, compose } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import rootReducer from '../../reducers';
 // import mainSaga from '../../sagas';
 // import { sagaMiddleware } from '../../configureStore';
@@ -10,7 +10,7 @@ export const findByTestAtrr = (component, attr) => {
 };
 
 export const checkProps = (component, expectedProps) => {
-    const propsErr = checkPropTypes(component.propTypes, expectedProps, 'props', component.name);
+    const propsErr = checkPropTypes(component.customPropTypes, expectedProps, 'props', component.name);
     return propsErr;
 };
 

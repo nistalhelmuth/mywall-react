@@ -6,9 +6,15 @@ import {
   Link,
 } from 'react-router-dom';
 import FormInput from '../General/FormInput';
+import * as selectors from '../../reducers';
 import styles from './header.module.css';
 
-const HeaderCore = ({
+export const customPropTypes = {
+  authorized: PropTypes.bool,
+  doLogin: PropTypes.func.isRequired,
+}
+
+const Header = ({
   authorized,
   // userData,
   doLogin,
@@ -19,7 +25,7 @@ const HeaderCore = ({
       password: '',
     },
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      doLogin(values, null, 2);
     },
   });
   return(
@@ -27,8 +33,6 @@ const HeaderCore = ({
       <Link
         to="/"
         className={styles.logo}
-        data-test="profileComponent"
-
       >
         <img src="assets/logo.png" alt="headerLogo"/>
       </Link>
@@ -36,11 +40,13 @@ const HeaderCore = ({
         authorized ? (
           <Link
             to="/profile"
+            data-test="authorizedComponent"
           >
             <button>Profile </button>
           </Link>
         ) : (
           <form
+            data-test="unAuthorizedComponent"
             className={styles.login}
             onSubmit={formik.handleSubmit}
           >
@@ -72,21 +78,15 @@ const HeaderCore = ({
     </div>
 )};
 
-/**
-Header.propTypes = {
-  //authorized: PropTypes.bool,
-  //doLogin: PropTypes.func.isRequired,
-  //handleSubmit: PropTypes.func.isRequired,
-}
- */
+Header.propTypes = customPropTypes;
 
 export default connect(
   (state) => ({
-    authorized: false, 
+    authorized: selectors.getIfAuthorized(state), 
   }),
   (dispatch) => ({
     doLogin(values) {
       console.log('login', values)
     }
   }),
-)(HeaderCore)
+)(Header)

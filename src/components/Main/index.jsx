@@ -6,7 +6,17 @@ import * as postActions from '../../actions/post';
 import * as selectors from '../../reducers';
 import styles from './main.module.css';
 
+export const customPropTypes = {
+  posts: PropTypes.array.isRequired,
+  postLoading: PropTypes.bool,
+  authId: PropTypes.number,
+  fetchAllPost: PropTypes.func.isRequired,
+}
+
 class Main extends Component {
+
+  static propTypes = customPropTypes;
+
   componentDidMount() {
     const {
       fetchAllPost
@@ -45,13 +55,6 @@ class Main extends Component {
     );
   }
 
-}
-
-Main.propTypes = {
-  posts: PropTypes.array,
-  postLoading: PropTypes.bool,
-  authId: PropTypes.number,
-  fetchAllPost: PropTypes.func.isRequired,
 }
 
 export default connect(

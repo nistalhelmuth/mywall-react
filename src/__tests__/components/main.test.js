@@ -2,12 +2,12 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { findByTestAtrr, checkProps, testStore } from '../utils';
-import Main from '../../components/Main';
+import Main, { customPropTypes } from '../../components/Main';
 
 const setUp = (initialState={}) => {
   const store = testStore(initialState);
   const wrapper = shallow(<Main store={store} />).childAt(0).dive();
-  return wrapper;
+  return { wrapper, customPropTypes};
 };
 
 describe('Header Component', () => {
@@ -19,30 +19,26 @@ describe('Header Component', () => {
     });
   
     it('Should render without errors', () => {
-      const wrapper = findByTestAtrr(component, 'mainComponent');
+      const wrapper = findByTestAtrr(component.wrapper, 'mainComponent');
       expect(wrapper.length).toBe(1);
     });
   });
 
-  /**
   describe('Checking PropTypes', () => {
     let component;
     beforeEach(() => {
-      component = setUp2(); 
+      component = setUp(); 
     });
 
     it('Should not throw a warning', () => {
-      const expectedProps = {
-        posts: [],
-        postLoading: false,
-        authId: 123,
-        fetchAllPost: jest.fn(),
-      };
-      console.log(component.propTypes, expectedProps)
-      const propsErr = checkProps(component, expectedProps)
-      expect(propsErr).toBeUndefined();
-
+        const expectedProps = {
+          authId: 1,
+          posts: [],
+          postLoading: false,
+          fetchAllPost: jest.fn(),
+        };
+        const propsErr = checkProps(component, expectedProps)
+        expect(propsErr).toBeUndefined();
     });
   });
-   */
 });
