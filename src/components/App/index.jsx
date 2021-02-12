@@ -29,7 +29,7 @@ const options = [
 ];
 
 const App = () => (
-  <div className={styles.app}>
+  <div className={styles.app} data-test="dataComponent">
     <Header />
     <Switch>
       {

@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { Provider } from 'react-redux';
+import { shallow } from 'enzyme';
 import { findByTestAtrr, checkProps, testStore } from '../utils';
 import Main, { customPropTypes } from '../../components/Main';
 

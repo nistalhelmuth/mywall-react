@@ -9,7 +9,6 @@ const setUp = ({
   initialState,
 }) => {
   const store = testStore(initialState);
-  //const wrapper = shallow(<Header store={store} />);
   const wrapper = shallow(<Header {...props} store={store} />).childAt(0).dive();
   return { wrapper, customPropTypes};
 };
