@@ -1,40 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
-import FormTextArea from '../FormTextArea';
+import PropTypes from 'prop-types';
+import CommentForm from '../CommentForm'
 import Comment from '../Comment'
 import * as postActions from '../../../actions/post';
 import * as selectors from '../../../reducers';
 import styles from './post.module.css';
 
-const CommentForm = ({
-  onSubmit
-}) => {
-  const formik = useFormik({
-    initialValues: {
-      content: '',
-    },
-    onSubmit,
-  });
-  return (
-    <form className={styles.form} onSubmit={formik.handleSubmit}>
-      <button type="submit">Comment</button>
-      <FormTextArea
-        id="content"
-        name="content"
-        placeholder="Write Something..."
-        onChange={formik.handleChange}
-        value={formik.values.content}
-      />
-    </form>
-
-  );
-
-};
-
+export const customPropTypes = {
+  content: PropTypes.string,
+  dateCreated: PropTypes.string,
+  comments: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    content: PropTypes.string,
+    dateCreated: PropTypes.string,
+    created_by: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+  })),
+  created_by: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  }),
+  createComment: PropTypes.func.isRequired,
+  commentLoading: PropTypes.bool,
+  authId: PropTypes.number,
+  authName: PropTypes.string,
+  fetchComments: PropTypes.func.isRequired,
+  postId: PropTypes.number,
+}
 
 class Post extends Component {
+
+  static propTypes = customPropTypes;
+
   constructor(props){
     super(props);
     this.state = {
@@ -68,7 +69,7 @@ class Post extends Component {
       showComments,
     } = this.state;
     return(
-      <div className={styles.post}>
+      <div className={styles.post} data-test="postComponent">
         <Link to={`/profile/${created_by ? created_by.id : authId}`}> 
           <img
             src="assets/defaultProfile.png"
