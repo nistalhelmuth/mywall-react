@@ -10,12 +10,6 @@ const setUp = (initialState={}) => {
   return wrapper;
 };
 
-const setUp2 = (initialState={}) => {
-  const store = testStore(initialState);
-  const wrapper = shallow(<Main store={store} />);
-  return wrapper;
-};
-
 describe('Header Component', () => {
 
   describe('Should Render', () => {
@@ -30,7 +24,7 @@ describe('Header Component', () => {
     });
   });
 
-
+  /**
   describe('Checking PropTypes', () => {
     let component;
     beforeEach(() => {
@@ -50,4 +44,5 @@ describe('Header Component', () => {
 
     });
   });
+   */
 });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { reduxForm, Field  } from 'redux-form';
 import { connect } from "react-redux";
+import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import FormTextArea from '../FormTextArea';
 import Comment from '../Comment'
@@ -8,8 +8,33 @@ import * as postActions from '../../../actions/post';
 import * as selectors from '../../../reducers';
 import styles from './post.module.css';
 
+const CommentForm = ({
+  onSubmit
+}) => {
+  const formik = useFormik({
+    initialValues: {
+      content: '',
+    },
+    onSubmit,
+  });
+  return (
+    <form className={styles.form} onSubmit={formik.handleSubmit}>
+      <button type="submit">Comment</button>
+      <FormTextArea
+        id="content"
+        name="content"
+        placeholder="Write Something..."
+        onChange={formik.handleChange}
+        value={formik.values.content}
+      />
+    </form>
 
-class PostCore extends Component {
+  );
+
+};
+
+
+class Post extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -34,7 +59,6 @@ class PostCore extends Component {
       dateCreated,
       comments,
       created_by,
-      handleSubmit,
       createComment,
       commentLoading,
       authId,
@@ -43,8 +67,6 @@ class PostCore extends Component {
     const {
       showComments,
     } = this.state;
-    console.log(comments)
-  
     return(
       <div className={styles.post}>
         <Link to={`/profile/${created_by ? created_by.id : authId}`}> 
@@ -75,23 +97,14 @@ class PostCore extends Component {
           {
             showComments && (
               <>
-                <form
-                  className={styles.form}
-                  onSubmit={handleSubmit(createComment.bind(this))}
-                >
-                  <button type="submit">Comment</button>
-                  <Field
-                    name="content"
-                    component={FormTextArea}
-                    placeholder="write something..."
-                  />
-                </form>
+                <CommentForm onSubmit={createComment}/>
                 {
                  comments && comments.length ? (
                     <div className={styles.bot}>
                       {
                         comments.map((comment) => (
                           <Comment
+                            key={comment.id}
                             content={comment.content}
                             dateCreated={comment.dateCreated}
                             created_by={comment.created_by}
@@ -120,10 +133,6 @@ class PostCore extends Component {
     );
   }
 }
-
-const Post = reduxForm({
-  form: 'commentForm',
-})(PostCore)
 
 export default connect(
   (state, { postId }) => ({

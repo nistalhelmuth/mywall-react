@@ -2,24 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const FormInput = ({
-  input: { onChange },
-  placeholder,
+  id,
+  name,
   type,
+  placeholder,
+  onChange,
   value,
 }) => (
   <input
+    id={id}
+    name={name}
     type={type}
+    onChange={onChange}
     placeholder={placeholder}
     value={value}
-    onChange={({ target }) => onChange(target.value)}
     autoFocus={false}
     formNoValidate
   />
 );
 
 FormInput.propTypes = {
-  // change to object
-  input: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,

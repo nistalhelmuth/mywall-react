@@ -8,7 +8,8 @@ import Header from '../../components/Header';
 const setUp = (initialState={}) => {
   const store = testStore(initialState);
   //const wrapper = shallow(<Header store={store} />);
-  const wrapper = shallow(<Header store={store} />);
+  const wrapper = shallow(<Header store={store} />).childAt(0).dive();
+  console.log(wrapper.debug())
   return wrapper;
 };
 
@@ -22,7 +23,7 @@ describe('Header Component', () => {
   
     it('Should render without errors', () => {
       const wrapper = findByTestAtrr(component, 'headerComponent');
-      expect(1).toBe(1);
+      expect(wrapper.length).toBe(1);
     });
   });
 
