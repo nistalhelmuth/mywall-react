@@ -1,0 +1,15 @@
+.profile {
+  display: flex;
+}
+
+.profile .information {
+  height: 300px;
+  width: 300px;
+  background: rebeccapurple;
+}
+
+.profile .friends {
+  height: 600px;
+  width: 300px;
+  background: blanchedalmond;
+}

@@ -1,0 +1,33 @@
+.post {
+  margin-bottom: 20px;
+  background-color: royalblue;
+  display: flex;
+  padding: 10px;
+}
+
+.post img {
+  height: 80px;
+  width: 80px;
+  margin-right: 10px;
+}
+
+.post .content {
+  display: flex;
+  flex-direction: column;
+}
+
+.post .content p{
+  margin: 0 0 10px 0;
+}
+
+.post .content .footer{
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+
+
+.post .bot{
+  padding: 10px;
+  background-color: white;
+}
