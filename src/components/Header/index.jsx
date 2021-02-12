@@ -58,7 +58,7 @@ const Header = ({
 
 export default compose(
   reduxForm({
-    form: 'LoginForm',
+    form: 'loginForm',
   }),
   connect(
     (state) => ({
