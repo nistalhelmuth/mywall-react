@@ -1,10 +1,26 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { useFormik } from 'formik';
+import PropTypes from 'prop-types';
 import FormTextArea from '../FormTextArea';
 import Post from '../Post'
 import * as postActions from '../../../actions/post';
 import styles from './wall.module.css';
+
+export const customPropTypes = {
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    content: PropTypes.string,
+    dateCreated: PropTypes.string,
+    created_by: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+  })),
+  createPost: PropTypes.func.isRequired,
+  enabledPost: PropTypes.bool,
+  loading: PropTypes.bool,
+}
 
 const Wall = ({
   posts,
@@ -21,10 +37,11 @@ const Wall = ({
     },
   });
   return(
-    <div className={styles.wall}>
+    <div className={styles.wall} data-test="wallComponent">
       {
         enabledPost && (
           <form
+            data-test="postFormComponent"
             className={styles.form}
             onSubmit={formik.handleSubmit}
           >
@@ -57,14 +74,14 @@ const Wall = ({
             }
           </>
         ) : (
-          <p>
+          <p data-test="postPlaceholderComponent">
             No posts to display
           </p>
         )
       }
       {
         loading && (
-          <h3 className={styles.loading}>
+          <h3 className={styles.loading} data-test="postLoadingComponent">
             Loading...
           </h3>
         )
@@ -72,6 +89,8 @@ const Wall = ({
     </div>
   )
 };
+
+Wall.propTypes = customPropTypes;
 
 export default connect(
   undefined,

@@ -33,33 +33,33 @@ describe('Post Component', () => {
     });
 
     it('Should not throw a warning', () => {
-        const expectedProps = {
-          content: "Content test text",
-          dateCreated: "01/01/2020",
-          comments: [
-            {
-              id: 1,
-              content: "Content test text",
-              dateCreated: "01/01/2020",
-              created_by: {
-                id: 1,
-                name: "Test name"
-              },
-            },
-          ],
-          created_by: {
+      const expectedProps = {
+        content: "Content test text",
+        dateCreated: "01/01/2020",
+        comments: [
+          {
             id: 1,
-            name: "Test name"
+            content: "Content test text",
+            dateCreated: "01/01/2020",
+            created_by: {
+              id: 1,
+              name: "Test name"
+            },
           },
-          createComment: jest.fn(),
-          commentLoading: false,
-          authId: 1,
-          authName: "Test name",
-          fetchComments: jest.fn(),
-          postId: 1,
-        };
-        const propsErr = checkProps(component, expectedProps)
-        expect(propsErr).toBeUndefined();
+        ],
+        created_by: {
+          id: 1,
+          name: "Test name"
+        },
+        createComment: jest.fn(),
+        commentLoading: false,
+        authId: 1,
+        authName: "Test name",
+        fetchComments: jest.fn(),
+        postId: 1,
+      };
+      const propsErr = checkProps(component, expectedProps)
+      expect(propsErr).toBeUndefined();
     });
   });
 
