@@ -14,12 +14,12 @@ const Header = ({
   doLogin,
   handleSubmit,
 }) => (
-  <div className={styles.header}>
+  <div className={styles.header} data-test="headerComponent">
     <Link
       to="/"
       className={styles.logo}
     >
-      <img src="assets/logo.png" alt="headerLogo" />
+      <img src="assets/logo.png" alt="headerLogo"/>
     </Link>
     {
       authorized ? (

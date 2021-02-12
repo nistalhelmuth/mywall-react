@@ -2,10 +2,10 @@ import {
   put,
   takeLatest,
   call,
-  all,
-  select,
+//all,
+//select,
 } from 'redux-saga/effects';
-import * as selectors from '../reducers';
+//import * as selectors from '../reducers';
 import * as userTypes from '../types/user';
 import * as userActions from '../actions/user';
 import * as postApi from '../apis/user';

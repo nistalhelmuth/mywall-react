@@ -6,7 +6,6 @@ const FormInput = ({
   placeholder,
   type,
   value,
-  icon,
 }) => (
   <input
     type={type}
@@ -24,7 +23,6 @@ FormInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
 };
 
 export default FormInput;

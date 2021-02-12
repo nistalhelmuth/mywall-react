@@ -46,7 +46,6 @@ const App = () => (
       }
       <Redirect to="/main" />
     </Switch>
-    {/** <Profile> */}
   </div>
 );
 
