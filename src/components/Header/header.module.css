@@ -10,6 +10,23 @@
   height: 60px;
 }
 
-.header .login {
+.header .greedings {
+  width: 425px;
   display: flex;
+  align-items: baseline;
+  justify-content: space-evenly;
+  color: white;
 }
+
+.header .login {
+  width: 425px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-evenly;
+}
+
+.header .login button{
+  height: 25px;
+  padding: 0;
+}
+
