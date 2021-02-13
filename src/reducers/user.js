@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import * as userTypes from '../types/user';
 
 const feelingsDict = {
@@ -7,6 +6,10 @@ const feelingsDict = {
   S: 'Sad',
   M: 'Motivated',
   B: 'Bored',
+}
+const genreDict = {
+  M: 'Male',
+  F: 'Female',
 }
 
 const defaultUserState = {
@@ -18,10 +21,23 @@ const defaultUserState = {
   genre: undefined,
   dateCreated: undefined,
   loading: undefined,
+  registerErrors: undefined,
 };
 
 const user = (state = defaultUserState, action) => {
   switch (action.type) {
+    case userTypes.USER_LOGED_IN_FAILED: 
+    case userTypes.USER_REGISTERED_FAILED: {
+      const {
+        payload: {
+          error
+        } 
+      } = action;
+      return {
+        ...state,
+        registerErrors: error,
+      }
+    }
     case userTypes.FETCHED_USER_PROFILE_SUCCEEDED: {
       const {
         payload: {
@@ -42,7 +58,7 @@ const user = (state = defaultUserState, action) => {
         name,
         city,
         visitors,
-        genre: genre === "M" ? "Male" : "Female",
+        genre: genreDict[genre],
         feeling: feelingsDict[feeling],
         dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
       }
@@ -53,30 +69,9 @@ const user = (state = defaultUserState, action) => {
   }
 }
 
-const byId = (state={}, action) => {
-  switch (action.type) {
-    
-    default: {
-      return state;
-    }
-  }
-}
-
-const order = (state=[], action) => {
-  switch (action.type) {
-    
-    default: {
-      return state;
-    }
-  }
-}
-
-export default combineReducers({
-  user,
-  byId,
-  order
-})
+export default user;
 
 //selectores
-export const getUserInformation = (state) => state.user;
+export const getUserErrors = (state) => state.registerErrors;
+export const getUserInformation = (state) => state;
 

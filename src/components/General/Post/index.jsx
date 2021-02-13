@@ -98,7 +98,11 @@ class Post extends Component {
           {
             showComments && (
               <>
-                <CommentForm onSubmit={createComment}/>
+                {
+                  authId && (
+                    <CommentForm onSubmit={createComment}/>
+                  )
+                }
                 {
                  comments && comments.length ? (
                     <div className={styles.bot}>
@@ -115,7 +119,7 @@ class Post extends Component {
                     </div>
                   ) : (
                     <p>
-                      be the first to comment :)
+                      {authId ? "be the first to comment" : "No comment to show"}
                     </p>
                   )
                 }

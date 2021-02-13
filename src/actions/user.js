@@ -12,11 +12,13 @@ export const doLogin = ({
 });
 
 export const doLoginConfirm = ({
+  id,
   name,
   token,
 }) => ({
   type: types.USER_LOGED_IN_SUCCEEDED,
   payload: {
+    id,
     name,
     token,
   },
@@ -124,10 +126,10 @@ export const fetchProfileInfoConfirm = ({
 });
 
 export const fetchProfileInfoDecline = ({
-  message,
+  error,
 }) => ({
   type: types.FETCHED_USER_PROFILE_FAILED,
   payload: {
-    message,
+    error,
   },
 });

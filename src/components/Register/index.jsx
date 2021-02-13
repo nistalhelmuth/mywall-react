@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import FormInput from '../General/FormInput';
 import FormSelect from '../General/FormSelect';
 import * as selectors from '../../reducers';
+import * as userActions from '../../actions/user';
 import styles from './register.module.css';
-import * as Yup from 'yup';
 
 export const customPropTypes = {
   doRegister: PropTypes.func.isRequired,
+  stateErrors: PropTypes.object,
 }
 
 const SignupSchema = Yup.object().shape({
@@ -75,17 +77,20 @@ const registerCamps = [
     id: "password",
     placeholder: "password",
     component: FormInput,
+    type: "password",
   },
   {
     name: "Check Password",
     id: "password2",
     placeholder: "password",
     component: FormInput,
+    type: "password",
   }
 ]
 
 const Register = ({
   doRegister,
+  stateErrors,
 }) => (
   <div className={styles.register}>
     <Formik 
@@ -117,7 +122,6 @@ const Register = ({
         handleChange,
         handleSubmit,
         handleBlur,
-        isSubmitting,
       }) => (
           <form onSubmit={handleSubmit} className={styles.form}>
             <h1>
@@ -130,20 +134,21 @@ const Register = ({
               {
                 registerCamps.map((camp) => (
                   <camp.component
-                    options={camp.options}
-                    name={camp.id}
-                    label={camp.name}
-                    error={touched[camp.id] && errors[camp.id]}
-                    placeholder={camp.name}
-                    handleBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values[camp.id]}
                     bigStyles
+                    error={touched[camp.id] && (errors[camp.id] || (stateErrors && stateErrors[camp.id]))}
+                    handleBlur={handleBlur}
+                    label={camp.name}
+                    name={camp.id}
+                    onChange={handleChange}
+                    options={camp.options}
+                    placeholder={camp.name}
+                    type={camp.type}
+                    value={values[camp.id]}
                   />
                 ))
               }
             </div>
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit">
               Submit
             </button>
           </form>
@@ -157,11 +162,17 @@ Register.propTypes = customPropTypes;
 
 export default connect(
   (state) => ({
-    authorized: selectors.getIfAuthorized(state), 
+    stateErrors: selectors.getUserErrors(state),
   }),
   (dispatch) => ({
     doRegister(values) {
-      console.log('register', values)
+      dispatch(userActions.registerUser({
+        email: values.email,
+        name: values.name,
+        city: values.city,
+        genre: values.genre,
+        password: values.password,
+      }))
     }
   }),
 )(Register)

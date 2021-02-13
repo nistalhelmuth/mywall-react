@@ -1,6 +1,7 @@
 .formInput {
   display: flex;
   flex-direction: column;
+  margin: 0 5px;
 }
 
 .formInput label{

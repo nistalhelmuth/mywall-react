@@ -13,7 +13,7 @@ const FormInput = ({
   handleBlur,
   bigStyles,
 }) => (
-  <div className={bigStyles ? styles.formInput : ''}>
+  <div className={bigStyles ? `${styles.formInput} ${styles.big}` : styles.formInput}>
     {
       label && (
         <label>
@@ -35,7 +35,19 @@ const FormInput = ({
       value={value}
       autoFocus={false}
       formNoValidate
-  />
+    />
+    {
+      !label && (
+        <label>
+          {
+            error && (
+              <span> {error}* </span>
+            )
+          }
+          &nbsp;
+        </label>
+      )
+    }
   </div>
 );
 

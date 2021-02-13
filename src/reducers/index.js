@@ -25,3 +25,4 @@ export const getAllCommentsByPost = (state, postId) => fromPostReducer.getAllCom
 
 //user
 export const getUserInformation = (state) => fromUserReducer.getUserInformation(state.userReducer);
+export const getUserErrors = (state) => fromUserReducer.getUserErrors(state.userReducer);
