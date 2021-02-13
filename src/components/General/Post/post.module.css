@@ -1,7 +1,8 @@
 .post {
-  margin-bottom: 20px;
+  margin: 10px 0 10px 0;
   display: flex;
   padding: 10px;
+  border: solid black 1px;
 }
 
 .post img {
@@ -33,6 +34,5 @@
 
 
 .post .bot{
-  padding: 10px;
   background-color: white;
 }

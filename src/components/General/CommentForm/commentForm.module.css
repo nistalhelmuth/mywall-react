@@ -1,10 +1,10 @@
 
-.post .form {
+.form {
   display: flex;
-  margin: 10px;
+  margin: 0px 0 10px 0;
 }
 
-.post .form button{
+.form button{
   width: 80px;
   height: 80px;
   margin-right: 10px;

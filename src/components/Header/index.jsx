@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { compose } from "redux";
 import { useFormik } from 'formik';
 import {
   Link,
+  withRouter
 } from 'react-router-dom';
 import FormInput from '../General/FormInput';
 import * as selectors from '../../reducers';
@@ -16,7 +18,7 @@ export const customPropTypes = {
 
 const Header = ({
   authorized,
-  // userData,
+  history,
   doLogin,
 }) => {
   const formik = useFormik({
@@ -67,11 +69,8 @@ const Header = ({
               value={formik.values.password}
             />
             <button type="submit">Login </button>
-            <Link
-              to="/register"
-            >
-              <button>Register </button>
-            </Link>
+           
+            <button onClick={() => history.push("/register")}>Register </button>
           </form>
         )
       }
@@ -80,13 +79,16 @@ const Header = ({
 
 Header.propTypes = customPropTypes;
 
-export default connect(
-  (state) => ({
-    authorized: selectors.getIfAuthorized(state), 
-  }),
-  (dispatch) => ({
-    doLogin(values) {
-      console.log('login', values)
-    }
-  }),
+export default compose(
+  withRouter,
+  connect(
+    (state) => ({
+      authorized: selectors.getIfAuthorized(state), 
+    }),
+    (dispatch) => ({
+      doLogin(values) {
+        console.log('login', values)
+      }
+    }),
+  )
 )(Header)

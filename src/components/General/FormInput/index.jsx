@@ -1,24 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './formInput.module.css';
 
 const FormInput = ({
-  id,
   name,
+  label,
+  error,
   type,
   placeholder,
   onChange,
   value,
+  handleBlur,
+  bigStyles,
 }) => (
-  <input
-    id={id}
-    name={name}
-    type={type}
-    onChange={onChange}
-    placeholder={placeholder}
-    value={value}
-    autoFocus={false}
-    formNoValidate
+  <div className={bigStyles ? styles.formInput : ''}>
+    {
+      label && (
+        <label>
+          {label}:
+          {
+            error && (
+              <span> {error}* </span>
+            )
+          }
+        </label>
+      )
+    }
+    <input
+      onBlur={handleBlur}
+      name={name}
+      type={type}
+      onChange={onChange}
+      placeholder={placeholder}
+      value={value}
+      autoFocus={false}
+      formNoValidate
   />
+  </div>
 );
 
 FormInput.propTypes = {

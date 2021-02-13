@@ -1,0 +1,17 @@
+.formInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.formInput label{
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.formInput span{
+  color: red;
+}
+
+.formInput input{
+  font-size: 18px;
+}
