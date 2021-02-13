@@ -16,8 +16,9 @@ export const getAuthId = (state) => fromAuthReducer.getAuthId(state.authReducer)
 export const getAuthName = (state) => fromAuthReducer.getAuthName(state.authReducer);
 
 //post
+export const getIfNextPage = (state) => fromPostReducer.getIfNextPage(state.postReducer);
+export const getCurrentPage = (state) => fromPostReducer.getCurrentPage(state.postReducer);
 export const getPageSize = (state) => fromPostReducer.getPageSize(state.postReducer);
-export const getNextPage = (state) => fromPostReducer.getNextPage(state.postReducer);
 export const getPostLoading = (state) => fromPostReducer.getPostLoading(state.postReducer);
 export const getCommentsLoading = (state) => fromPostReducer.getCommentsLoading(state.postReducer);
 export const getAllPosts = (state) => fromPostReducer.getAllPosts(state.postReducer);

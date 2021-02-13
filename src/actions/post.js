@@ -11,11 +11,15 @@ export const fetchAllPosts = ({
 });
 
 export const fetchAllPostsConfirm = ({
-  allPosts
+  allPosts,
+  currentPage,
+  nextPage,
 }) => ({
   type: types.FETCHED_ALL_POSTS_SUCCEEDED,
   payload: {
-    allPosts
+    allPosts,
+    currentPage,
+    nextPage,
   },
 });
 

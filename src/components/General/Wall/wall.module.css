@@ -8,6 +8,13 @@
 
 .wall .loading {
   height: 100px;
+  text-align: center;
+}
+
+.wall .more {
+  height: 75px;
+  width: 100%;
+  font-size: 24px;
 }
 
 .wall .form {

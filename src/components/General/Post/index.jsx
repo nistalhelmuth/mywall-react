@@ -94,6 +94,13 @@ class Post extends Component {
                 </button>
               )
             }
+            {
+              showComments && commentLoading && (
+                <h3 className={styles.loading}>
+                  Loading...
+                </h3>
+              )
+            }
           </div>
           {
             showComments && (
@@ -118,19 +125,19 @@ class Post extends Component {
                       }
                     </div>
                   ) : (
-                    <p>
-                      {authId ? "be the first to comment" : "No comment to show"}
-                    </p>
+                    <>
+                      {
+                        !commentLoading && (
+                          <p>
+                            {authId ? "be the first to comment" : "No comment to show"}
+                          </p>
+
+                        )
+                      }
+                    </>
                   )
                 }
               </>
-            )
-          }
-          {
-            commentLoading && (
-              <h3 className={styles.loading}>
-                Loading...
-              </h3>
             )
           }
         </div>

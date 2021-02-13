@@ -3,10 +3,11 @@ import {
   takeLatest,
   call,
   select,
+  delay,
 } from 'redux-saga/effects';
 import {
   getUserToken,
-  getNextPage,
+  getCurrentPage,
   getPageSize,
 } from '../reducers';
 import * as postTypes from '../types/post';
@@ -19,18 +20,20 @@ function* postFetcher(action) {
       profileId,
     },
   } = action;
-  const nextPage = yield select(getNextPage);
+  const currentPage = yield select(getCurrentPage);
   const pageSize = yield select(getPageSize);
   try {
     const response = yield call(
       postApi.getAllPosts,
       profileId,
       pageSize,
-      nextPage,
+      currentPage + 1,
     );
+    yield delay(500);
     yield put(postActions.fetchAllPostsConfirm({
       allPosts: response.results,
-      nextPage: response.next === null ? nextPage : nextPage + 1,
+      currentPage: currentPage + 1, 
+      nextPage: response.next !== null ? true : false,
     }));
   } catch (error) {
     yield put(postActions.fetchAllPostsDecline({
@@ -50,6 +53,7 @@ function* commentsFetcher(action) {
       postApi.getAllComments,
       postId
     );
+    yield delay(500);
     yield put(postActions.fetchAllCommentsConfirm({
       allComments: response,
       postId,
@@ -115,7 +119,6 @@ function* commentCreator(action) {
       randomId,
     }));
   } catch (error) {
-    console.log(error);
     yield put(postActions.commentPostDecline({
       postId,
       message: error,
@@ -132,10 +135,6 @@ function* LoginSaga() {
   yield takeLatest(
     postTypes.FETCHED_ALL_COMMENTS,
     commentsFetcher
-  );
-  yield takeLatest(
-    postTypes.FETCHED_ALL_POSTS,
-    postFetcher
   );
   yield takeLatest(
     postTypes.CREATED_POST,
