@@ -9,16 +9,13 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const storeConfig = configureStore();
-document.body.classList.toggle("white-content");
 
 ReactDOM.render(
-  <React.StrictMode>
     <Provider store={storeConfig}>
       <Router history={createBrowserHistory()}>
         <App />
       </Router>
     </Provider>,
-  </React.StrictMode>,
   document.getElementById('root')
 );
 

@@ -103,9 +103,11 @@ class Profile extends Component {
           enabledPost={authId === parseInt(profileId)}
           loading={postLoading}
         />
+        {/**
         <div className={styles.friends}>
 
         </div>
+         */}
       </div>
     );
   }
