@@ -17,10 +17,7 @@
   width: 100%;
 }
 
-.post .content .loading {
-  background-color: white;
-  height: 100px;
-}
+
 
 .post .content p{
   margin: 0 0 10px 0;

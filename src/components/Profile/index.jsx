@@ -44,21 +44,15 @@ class Profile extends Component {
 
   componentDidMount() {
     const {
-      fetchAllPostForUser,
       fetchProfileInfo,
-      match: {
-        params: {
-          profileId,
-        },
-      },
     } = this.props;
-    fetchAllPostForUser(profileId);
-    fetchProfileInfo(profileId);
+    fetchProfileInfo();
   }
 
   render() {
     const {
       posts,
+      fetchAllPostForUser,
       postLoading,
       userInformation: {
         email,
@@ -99,15 +93,11 @@ class Profile extends Component {
           </p>
         </div>
         <Wall
+          fetchPosts={fetchAllPostForUser}
           posts={posts}
           enabledPost={authId === parseInt(profileId)}
           loading={postLoading}
         />
-        {/**
-        <div className={styles.friends}>
-
-        </div>
-         */}
       </div>
     );
   }
@@ -123,13 +113,27 @@ export default compose(
       userInformation: selectors.getUserInformation(state),
       authId: selectors.getAuthId(state),
     }),
-    (dispatch) => ({
-      fetchAllPostForUser(profileId) {
+    (dispatch, {...props}) => ({
+      fetchAllPostForUser() {
+        const {
+          match: {
+            params: {
+              profileId,
+            },
+          }
+        } = props;
         dispatch(postActions.fetchAllPosts({
           profileId,
         }));
       },
-      fetchProfileInfo(profileId) {
+      fetchProfileInfo() {
+        const {
+          match: {
+            params: {
+              profileId,
+            },
+          }
+        } = props;
         dispatch(userActions.fetchProfileInfo({
           profileId,
         }));

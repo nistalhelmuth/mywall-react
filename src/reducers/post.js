@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import * as postTypes from '../types/post';
 
-const postDefaultState = {
+export const postDefaultState = {
   loadingPosts: false,
   loadingComments: false,
-  nextPage: 0,
-  pageSize: 10,
+  nextPage: false,
+  currentPage: -1,
+  pageSize: 3,
 };
 
 const post = (state = postDefaultState, action) => {
@@ -16,18 +17,20 @@ const post = (state = postDefaultState, action) => {
         loadingPosts: true,
       }
     }
-    case postTypes.FETCHED_ALL_POSTS_SUCCEEDED:
-      /**
+    case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {
         payload: {
-          nextPage
+          nextPage,
+          currentPage,
         },
       } = action;
-       */
       return {
         ...state,
+        nextPage,
+        currentPage,
         loadingPosts: false,
       }
+    }
     case postTypes.FETCHED_ALL_POSTS_FAILED: {
       return {
         ...state,
@@ -82,13 +85,16 @@ const byId = (state={}, action) => {
           created_by,
         },
       } = action;
+      const date = new Date(date_created);
       const postByIdState = {
         ...state,
         [randomId]: {
           id,
           content,
-          date_created,
+          dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
           created_by,
+          commentsById: {},
+          commentsOrder: [],
         }
       }
       return postByIdState;
@@ -153,7 +159,7 @@ const byId = (state={}, action) => {
               content,
               id: postId,
               createdBy,
-              dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+              dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
             },
           },
         }
@@ -188,7 +194,7 @@ const byId = (state={}, action) => {
         postByIdState[post.id] = {
           ...postByIdState[post.id],
           ...post,
-          dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+          dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
           commentsById: {},
           commentsOrder: [],
         }
@@ -209,7 +215,7 @@ const byId = (state={}, action) => {
         commentsById[comment.id] = {
           ...commentsById[comment.id],
           ...comment,
-          dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+          dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
         }
       });;
       const commentsOrder = Object.values(allComments).map((comments) => comments.id);
@@ -255,7 +261,10 @@ const order = (state=[], action) => {
         },
       } = action;
       const postOrderState = Object.values(allPosts).map((post) => post.id);
-      return postOrderState;
+      return [
+        ...state,
+        ...postOrderState,
+      ];
     }
     default: {
       return state;
@@ -270,7 +279,8 @@ export default combineReducers({
 })
 
 //selectores
-export const getNextPage = (state) => state.post.nextPage;
+export const getIfNextPage = (state) => state.post.nextPage;
+export const getCurrentPage = (state) => state.post.currentPage;
 export const getPageSize = (state) => state.post.pageSize;
 export const getPostLoading = (state) => state.post.loadingPosts;
 export const getCommentsLoading = (state) => state.post.loadingComments;

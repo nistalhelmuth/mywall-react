@@ -25,36 +25,20 @@ class Main extends Component {
 
   static propTypes = customPropTypes;
 
-  componentDidMount() {
-    const {
-      fetchAllPost
-    } = this.props;
-    fetchAllPost();
-  }
-
-  scrollCheck(event) {
-    const {
-      fetchAllPost,
-    } = this.props;
-    const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
-    if (bottom) {
-      fetchAllPost();
-    }
-  };
-
   render() {
     const {
       posts,
       postLoading,
       authId,
+      fetchAllPost,
     } = this.props;
     return(
       <div
         className={styles.main}
-        onScroll={this.scrollCheck.bind(this)}
         data-test="mainComponent"
       >
         <Wall
+          fetchPosts={fetchAllPost}
           posts={posts}
           enabledPost={authId}
           loading={postLoading}
