@@ -2,17 +2,16 @@
 .wall {
   width: 800px;
   margin: 20px;
-  background-color: royalblue;
+  background-color: white;
+  padding: 20px;
 }
 
 .wall .loading {
-  background-color: white;
   height: 100px;
 }
 
 .wall .form {
   display: flex;
-  margin: 10px;
 }
 
 .wall .form button{

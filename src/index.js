@@ -2,23 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { history } from './history';
 import App from './components/App';
 import configureStore from './configureStore';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const storeConfig = configureStore();
-document.body.classList.toggle("white-content");
 
 ReactDOM.render(
-  <React.StrictMode>
     <Provider store={storeConfig}>
-      <Router history={createBrowserHistory()}>
+      <Router history={history}>
         <App />
       </Router>
     </Provider>,
-  </React.StrictMode>,
   document.getElementById('root')
 );
 

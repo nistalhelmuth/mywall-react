@@ -1,33 +1,34 @@
-// import * as types from '../types/login';
+import * as types from '../types/user';
 
 const stateShape = {
-  id: 5,
-  name: "Helmuth",
-  token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6ImFsYXRvcnRyaXhAbGl2ZS5jb20iLCJleHAiOjE2MTMwMTg3MjEsImVtYWlsIjoiYWxhdG9ydHJpeEBsaXZlLmNvbSJ9.FlYRTIHiX_0Ox5w_U_9Y2yG8QcqezVoLJLIPCEtqdaU",
-  authenticated: true,
+  id: undefined,
+  name: undefined,
+  token: undefined,
+  authenticated: false,
 };
 
 const auth = (state = stateShape, action) => {
   switch (action.type) {
-    /**
-    case types.USER_LOGGED_SUCCEDED: {
+    case types.USER_LOGED_IN_SUCCEEDED: {
       const {
         payload:{
-          token
+          id,
+          name,
+          token,
         }
       } = action;
       return {
         ...state,
+        id,
+        name,
         token,
         authenticated: true,
       };
     }
-    case types.USER_LOGGED_FAILED:
-    case types.USER_UNLOGGED_FAILED:
-    case types.USER_UNLOGGED_SUCCEDED: {
-      return state;
+    case types.USER_LOGED_IN_FAILED:
+    case types.USER_LOGED_OUT: {
+      return stateShape;
     }
-     */
     default: {
       return state;
     }

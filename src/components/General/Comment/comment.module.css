@@ -3,5 +3,9 @@
   display: flex;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: royalblue;
+  background-color: rgb(100, 158, 197);
+}
+
+.comment:last-child{
+  margin: 0;
 }

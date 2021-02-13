@@ -12,8 +12,9 @@ const FormInput = ({
   value,
   handleBlur,
   bigStyles,
+  options,
 }) => (
-  <div className={bigStyles ? `${styles.formInput} ${styles.big}` : styles.formInput}>
+  <div className={bigStyles ? styles.formInput : ''}>
     {
       label && (
         <label>
@@ -26,7 +27,7 @@ const FormInput = ({
         </label>
       )
     }
-    <input
+    <select
       onBlur={handleBlur}
       name={name}
       type={type}
@@ -35,19 +36,15 @@ const FormInput = ({
       value={value}
       autoFocus={false}
       formNoValidate
-    />
-    {
-      !label && (
-        <label>
-          {
-            error && (
-              <span> {error}* </span>
-            )
-          }
-          &nbsp;
-        </label>
-      )
-    }
+    >
+      <option />
+      {
+        options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+
+        ))
+      }
+    </select>
   </div>
 );
 
