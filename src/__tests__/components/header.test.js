@@ -9,7 +9,7 @@ const setUp = ({
   initialState,
 }) => {
   const store = testStore(initialState);
-  const wrapper = shallow(<Header {...props} store={store} />).childAt(0).dive();
+  const wrapper = shallow(<Header.WrappedComponent {...props} store={store} />)//.childAt(0).dive();
   return { wrapper, customPropTypes};
 };
 
@@ -18,11 +18,15 @@ describe('Header Component', () => {
   describe('Should Render', () => {
     let component;
     beforeEach(() => {
-      component = setUp({}); 
+      component = setUp({
+        props: {
+          doLogin: jest.fn(),
+        }
+      }); 
     });
   
     it('Should render without errors', () => {
-      const wrapper = findByTestAtrr(component.wrapper, 'headerComponent').childAt(0).dive();
+      const wrapper = findByTestAtrr(component.wrapper, 'headerComponent');
       expect(wrapper.length).toBe(1);
     });
   });
@@ -30,6 +34,10 @@ describe('Header Component', () => {
   describe('Cheking authorized behaviour', () => {
     let component
     component = setUp({
+      props: {
+        authorized: true,
+        doLogin: jest.fn(),
+      },
       initialState: {
         authReducer: {
           authenticated: true,
@@ -46,7 +54,11 @@ describe('Header Component', () => {
   describe('Checking PropTypes', () => {
     let component;
     beforeEach(() => {
-      component = setUp({}); 
+      component = setUp({
+        props: {
+          doLogin: jest.fn(),
+        }
+      }); 
     });
 
     it('Should not throw a warning', () => {
