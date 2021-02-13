@@ -12,7 +12,8 @@
   color: red;
 }
 
-.formInput input{
+.formInput select{
   font-size: 18px;
+  border-radius: 0;
   border: solid #cccccc 1px;
 }

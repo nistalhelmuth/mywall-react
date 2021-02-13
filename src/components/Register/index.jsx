@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Formik } from 'formik';
 import FormInput from '../General/FormInput';
+import FormSelect from '../General/FormSelect';
 import * as selectors from '../../reducers';
 import styles from './register.module.css';
 import * as Yup from 'yup';
+
+export const customPropTypes = {
+  doRegister: PropTypes.func.isRequired,
+}
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -29,40 +34,53 @@ const SignupSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export const customPropTypes = {
-  doRegister: PropTypes.func.isRequired,
-}
-
 const registerCamps = [
   {
     name: "Email",
     id: "email",
     placeholder: "email",
+    component: FormInput,
   },
   {
     name: "Name",
     id: "name",
     placeholder: "name",
+    component: FormInput,
   },
   {
     name: "City",
     id: "city",
     placeholder: "city",
+    component: FormInput,
   },
   {
     name: "Genre",
     id: "genre",
     placeholder: "genre",
+    type: "options",
+    options: [
+      {
+        label: 'Female',
+        value: 'F',
+      },
+      {
+        label: 'Male',
+        value: 'M',
+      },
+    ],
+    component: FormSelect,
   },
   {
     name: "Password",
     id: "password",
     placeholder: "password",
+    component: FormInput,
   },
   {
     name: "Check Password",
     id: "password2",
     placeholder: "password",
+    component: FormInput,
   }
 ]
 
@@ -111,7 +129,8 @@ const Register = ({
             <div className={styles.camps}>
               {
                 registerCamps.map((camp) => (
-                  <FormInput
+                  <camp.component
+                    options={camp.options}
                     name={camp.id}
                     label={camp.name}
                     error={touched[camp.id] && errors[camp.id]}
