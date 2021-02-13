@@ -1,68 +1,89 @@
 import React from 'react';
-import { compose } from 'recompose';
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import { reduxForm, Field  } from 'redux-form';
+import { compose } from "redux";
+import { useFormik } from 'formik';
 import {
   Link,
+  withRouter
 } from 'react-router-dom';
 import FormInput from '../General/FormInput';
+import * as selectors from '../../reducers';
 import styles from './header.module.css';
+
+export const customPropTypes = {
+  authorized: PropTypes.bool,
+  doLogin: PropTypes.func.isRequired,
+}
 
 const Header = ({
   authorized,
-  userData,
+  history,
   doLogin,
-  handleSubmit,
-}) => (
-  <div className={styles.header}>
-    <Link
-      to="/"
-      className={styles.logo}
-    >
-      <img src="assets/logo.png" alt="headerLogo" />
-    </Link>
-    {
-      authorized ? (
-        <Link
-          to="/profile"
-        >
-          <button>Profile </button>
-        </Link>
-      ) : (
-        <form
-          className={styles.login}
-          onSubmit={handleSubmit(doLogin.bind(this))}
-        >
-          <Field
-            name="email"
-            component={FormInput}
-            placeholder="email"
-          />
-          <Field
-            name="password"
-            component={FormInput}
-            placeholder="password"
-          />
-          <button type="submit">Login </button>
+}) => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: values => {
+      doLogin(values, null, 2);
+    },
+  });
+  return(
+    <div className={styles.header} data-test="headerComponent">
+      <Link
+        to="/"
+        className={styles.logo}
+      >
+        <img src="assets/logo.png" alt="headerLogo"/>
+      </Link>
+      {
+        authorized ? (
           <Link
-            to="/register"
+            to="/profile"
+            data-test="authorizedComponent"
           >
-            <button>Register </button>
+            <button>Profile </button>
           </Link>
-        </form>
-      )
-    }
-  </div>
-);
+        ) : (
+          <form
+            data-test="unAuthorizedComponent"
+            className={styles.login}
+            onSubmit={formik.handleSubmit}
+          >
+            <FormInput
+              id="email"
+              name="email"
+              type="email"
+              placeholder="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+            />
+            <FormInput
+              id="password"
+              name="password"
+              type="password"
+              placeholder="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+            <button type="submit">Login </button>
+           
+            <button onClick={() => history.push("/register")}>Register </button>
+          </form>
+        )
+      }
+    </div>
+)};
 
+Header.propTypes = customPropTypes;
 
 export default compose(
-  reduxForm({
-    form: 'loginForm',
-  }),
+  withRouter,
   connect(
     (state) => ({
-      authorized: false, 
+      authorized: selectors.getIfAuthorized(state), 
     }),
     (dispatch) => ({
       doLogin(values) {
@@ -70,4 +91,4 @@ export default compose(
       }
     }),
   )
-)(Header);
+)(Header)

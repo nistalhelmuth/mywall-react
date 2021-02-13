@@ -1,11 +1,30 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Wall from '../General/Wall';
 import { connect } from "react-redux";
 import * as postActions from '../../actions/post';
 import * as selectors from '../../reducers';
 import styles from './main.module.css';
 
+export const customPropTypes = {
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    content: PropTypes.string,
+    dateCreated: PropTypes.string,
+    created_by: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+  })),
+  postLoading: PropTypes.bool,
+  authId: PropTypes.number,
+  fetchAllPost: PropTypes.func.isRequired,
+}
+
 class Main extends Component {
+
+  static propTypes = customPropTypes;
+
   componentDidMount() {
     const {
       fetchAllPost
@@ -30,7 +49,11 @@ class Main extends Component {
       authId,
     } = this.props;
     return(
-      <div className={styles.main} onScroll={this.scrollCheck.bind(this)}>
+      <div
+        className={styles.main}
+        onScroll={this.scrollCheck.bind(this)}
+        data-test="mainComponent"
+      >
         <Wall
           posts={posts}
           enabledPost={authId}
@@ -52,11 +75,5 @@ export default connect(
     fetchAllPost() {
       dispatch(postActions.fetchAllPosts({}));
     },
-    commentPost(values){
-      console.log('create comment', values)
-    },
-    createPost(values) {
-      console.log('create post', values)
-    }
   }),
 )(Main);

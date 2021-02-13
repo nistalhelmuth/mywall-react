@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import styles from './formtextarea.module.css'
 
 const FormTextArea = ({
-  input: { onChange },
+  id,
+  name,
   placeholder,
-  type,
+  onChange,
   value,
 }) => (
   <textarea
-    type={type}
+    id={id}
+    name={name}
     placeholder={placeholder}
+    onChange={onChange}
     value={value}
-    onChange={({ target }) => onChange(target.value)}
     autoFocus={false}
     formNoValidate
     className={styles.formTextArea}
@@ -20,10 +22,7 @@ const FormTextArea = ({
 );
 
 FormTextArea.propTypes = {
-  // change to object
-  input: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 };
 

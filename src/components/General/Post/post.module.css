@@ -1,7 +1,8 @@
 .post {
-  margin-bottom: 20px;
+  margin: 10px 0 10px 0;
   display: flex;
   padding: 10px;
+  border: solid black 1px;
 }
 
 .post img {
@@ -25,19 +26,6 @@
   margin: 0 0 10px 0;
 }
 
-
-.post .form {
-  display: flex;
-  margin: 10px;
-}
-
-.post .form button{
-  width: 80px;
-  height: 80px;
-  margin-right: 10px;
-}
-
-
 .post .content .footer{
   display: flex;
   justify-content: space-between;
@@ -46,6 +34,5 @@
 
 
 .post .bot{
-  padding: 10px;
   background-color: white;
 }

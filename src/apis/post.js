@@ -1,10 +1,18 @@
-import URL from './routes';
+import CURRENT_URL from './routes';
 
 export const getAllPosts = (
   profileId,
+  limit,
+  offset,
 ) => new Promise((resolve, reject) => {
-  fetch(`${URL}/posts/${profileId ? `?created_by=${profileId}` : ''}`)
-  .then((resultado) =>  {
+  const url = new URL(`${CURRENT_URL}/posts/`);
+  const params = {
+    profileId,
+    limit,
+    offset,
+  }
+  Object.keys(params).forEach(key => params[key] && url.searchParams.append(key, params[key]))
+  fetch(url).then((resultado) =>  {
     if (resultado.ok) {
       resultado.json().then((res) => resolve(res));
     } else {
@@ -16,7 +24,7 @@ export const getAllPosts = (
 export const getAllComments = (
   postId,
 ) => new Promise((resolve, reject) => {
-  fetch(`${URL}/posts/${postId}/`)
+  fetch(`${CURRENT_URL}/posts/${postId}/`)
   .then((resultado) =>  {
     if (resultado.ok) {
       resultado.json().then((res) => resolve(res));
@@ -31,7 +39,7 @@ export const createPost = (
   token,
   content,
 ) => new Promise((resolve, reject) => {
-  fetch(`${URL}/posts/`, {
+  fetch(`${CURRENT_URL}/posts/`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-type": "application/json"
@@ -55,7 +63,7 @@ export const createComment = (
   postId,
   content,
 ) => new Promise((resolve, reject) => {
-  fetch(`${URL}/posts/${postId}/`, {
+  fetch(`${CURRENT_URL}/posts/${postId}/`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-type": "application/json"

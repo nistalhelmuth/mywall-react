@@ -1,3 +1,37 @@
 .register {
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.register .form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 30px;
+}
+
+.register .form h1{
+  margin: 0;
+}
+
+
+.register .camps{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 350px;
+}
+
+.register .camps p{
+  margin: 0;
+  font-size: 12px;
+}
+.register .camps .errorMessage{
+  color: red;
+  margin: 0;
+  font-size: 12px;
 }

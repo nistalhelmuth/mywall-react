@@ -70,11 +70,15 @@ export const registerUser = ({
 });
 
 export const registerUserConfirm = ({
-
+  id,
+  name,
+  email,
 }) => ({
   type: types.USER_REGISTERED_SUCCEEDED,
   payload: {
-
+    id,
+    name,
+    email,
   },
 });
 

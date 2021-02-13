@@ -3,8 +3,9 @@
 }
 
 .profile .information {
+  height: 400px;
   width: 250px;
-  border: black solid 1px;
+  background-color: white;
   padding: 20px;
   margin: 20px;
   display: flex;
