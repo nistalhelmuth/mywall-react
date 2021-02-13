@@ -4,7 +4,11 @@ import {
   call,
   select,
 } from 'redux-saga/effects';
-import { getUserToken } from '../reducers';
+import {
+  getUserToken,
+  getNextPage,
+  getPageSize,
+} from '../reducers';
 import * as postTypes from '../types/post';
 import * as postActions from '../actions/post';
 import * as postApi from '../apis/post';
@@ -15,13 +19,18 @@ function* postFetcher(action) {
       profileId,
     },
   } = action;
-   try {
+  const nextPage = yield select(getNextPage);
+  const pageSize = yield select(getPageSize);
+  try {
     const response = yield call(
       postApi.getAllPosts,
-      profileId
+      profileId,
+      pageSize,
+      nextPage,
     );
     yield put(postActions.fetchAllPostsConfirm({
-      allPosts: response,
+      allPosts: response.results,
+      nextPage: response.next === null ? nextPage : nextPage + 1,
     }));
   } catch (error) {
     yield put(postActions.fetchAllPostsDecline({
@@ -36,7 +45,7 @@ function* commentsFetcher(action) {
       postId,
     },
   } = action;
-   try {
+  try {
     const response = yield call(
       postApi.getAllComments,
       postId

@@ -1,8 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 import * as selectors from '../../../reducers';
 import styles from './comment.module.css';
+
+export const customPropTypes = {
+  content: PropTypes.string,
+  dateCreated: PropTypes.string,
+  created_by: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  }),
+  authId: PropTypes.number,
+  authName: PropTypes.string,
+}
+
 
 const Comment = ({
   content,
@@ -11,7 +24,7 @@ const Comment = ({
   authId,
   authName,
 }) => (
-  <div className={styles.comment}>
+  <div className={styles.comment} data-test="commentComponent">
     <Link to={`/profile/${created_by? created_by.id : authId}`}>
       <img
         src="assets/defaultProfile.png"
@@ -31,6 +44,8 @@ const Comment = ({
     </div>
   </div>
 );
+
+Comment.propTypes = customPropTypes;
 
 export default connect(
   (state) => ({

@@ -4,6 +4,8 @@ import * as postTypes from '../types/post';
 const postDefaultState = {
   loadingPosts: false,
   loadingComments: false,
+  nextPage: 0,
+  pageSize: 10,
 };
 
 const post = (state = postDefaultState, action) => {
@@ -15,6 +17,17 @@ const post = (state = postDefaultState, action) => {
       }
     }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED:
+      /**
+      const {
+        payload: {
+          nextPage
+        },
+      } = action;
+       */
+      return {
+        ...state,
+        loadingPosts: false,
+      }
     case postTypes.FETCHED_ALL_POSTS_FAILED: {
       return {
         ...state,
@@ -257,11 +270,12 @@ export default combineReducers({
 })
 
 //selectores
+export const getNextPage = (state) => state.post.nextPage;
+export const getPageSize = (state) => state.post.pageSize;
 export const getPostLoading = (state) => state.post.loadingPosts;
 export const getCommentsLoading = (state) => state.post.loadingComments;
 export const getAllPosts = (state) => state.order.map((id) => getPostById(state, id));
 export const getPostById = (state, id) => state.byId[id] || undefined; 
-
 export const getCommentById = (state, postId, commentId) => state.byId[postId] ? state.byId[postId].commentsById[commentId] : undefined;
 export const getAllCommentsByPost = (state, postId) => 
   state.byId[postId] ? (

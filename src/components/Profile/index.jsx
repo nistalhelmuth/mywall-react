@@ -1,17 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { compose } from 'redux'
+import PropTypes from 'prop-types';
 import {
   withRouter,
 } from "react-router-dom";
-import { compose } from 'recompose';
 import Wall from '../General/Wall';
 import * as userActions from '../../actions/user';
 import * as postActions from '../../actions/post';
 import * as selectors from '../../reducers';
 import styles from './profile.module.css';
 
+export const customPropTypes = {
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    content: PropTypes.string,
+    dateCreated: PropTypes.string,
+    created_by: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+  })),
+  postLoading: PropTypes.bool,
+  authId: PropTypes.number,
+  userInformation: PropTypes.shape({
+    email: PropTypes.string,
+    name: PropTypes.string,
+    city: PropTypes.string,
+    genre: PropTypes.string,
+    dateCreated: PropTypes.string,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      profileId: PropTypes.string,
+    })
+  })
+}
+
 
 class Profile extends Component {
+
+  static propTypes = customPropTypes;
+
   componentDidMount() {
     const {
       fetchAllPostForUser,
@@ -34,9 +64,7 @@ class Profile extends Component {
         email,
         name,
         city,
-        visitors,
         genre,
-        feeling,
         dateCreated,
       },
       authId,
@@ -47,7 +75,7 @@ class Profile extends Component {
       },
     } = this.props;
     return (
-      <div className={styles.profile}>
+      <div className={styles.profile} data-test="profileComponent">
         <div className={styles.information}>
           <img
             src="assets/defaultProfile.png"
@@ -64,13 +92,7 @@ class Profile extends Component {
             city: {city}
           </p>
           <p>
-            visitors: {visitors}
-          </p>
-          <p>
             genre: {genre}
-          </p>
-          <p>
-            feeling: {feeling}
           </p>
           <p>
             date joined: {dateCreated}
@@ -110,12 +132,6 @@ export default compose(
           profileId,
         }));
       },
-      commentPost(values){
-        console.log('create comment', values)
-      },
-      createPost(values) {
-        console.log('create post', values)
-      }
     }),
   )
 )(Profile);
