@@ -1,30 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './formtextarea.module.css'
 
-const FormInput = ({
+const FormTextArea = ({
   id,
   name,
-  type,
   placeholder,
   onChange,
   value,
 }) => (
-  <input
+  <textarea
     id={id}
     name={name}
-    type={type}
-    onChange={onChange}
     placeholder={placeholder}
+    onChange={onChange}
     value={value}
     autoFocus={false}
     formNoValidate
+    className={styles.formTextArea}
   />
 );
 
-FormInput.propTypes = {
+FormTextArea.propTypes = {
   placeholder: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 };
 
-export default FormInput;
+export default FormTextArea;
