@@ -18,6 +18,7 @@ export const customPropTypes = {
       name: PropTypes.string,
     }),
   })),
+  fetchPosts: PropTypes.func.isRequired,
   createPost: PropTypes.func.isRequired,
   enabledPost: PropTypes.bool,
   loading: PropTypes.bool,

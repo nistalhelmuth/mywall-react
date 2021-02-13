@@ -52,6 +52,7 @@ class Profile extends Component {
   render() {
     const {
       posts,
+      fetchAllPostForUser,
       postLoading,
       userInformation: {
         email,
@@ -92,6 +93,7 @@ class Profile extends Component {
           </p>
         </div>
         <Wall
+          fetchPosts={fetchAllPostForUser}
           posts={posts}
           enabledPost={authId === parseInt(profileId)}
           loading={postLoading}

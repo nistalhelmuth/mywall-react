@@ -85,13 +85,16 @@ const byId = (state={}, action) => {
           created_by,
         },
       } = action;
+      const date = new Date(date_created);
       const postByIdState = {
         ...state,
         [randomId]: {
           id,
           content,
-          date_created,
+          dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
           created_by,
+          commentsById: {},
+          commentsOrder: [],
         }
       }
       return postByIdState;
