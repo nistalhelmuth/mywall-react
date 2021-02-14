@@ -7,7 +7,7 @@ export const getAllPosts = (
 ) => new Promise((resolve, reject) => {
   const url = new URL(`${CURRENT_URL}/posts/`);
   const params = {
-    profileId,
+    created_by: profileId,
     limit,
     offset,
   }
