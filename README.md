@@ -20,7 +20,7 @@ This is a example implementation of the React Framework. It is implemented with 
 
 4. Open the project folder in your terminal: `cd mywall-react`
 
-5. Install node dependencies: `npm install` or `yarn install`
+5. Install node dependencies: `npm install --force --legacy-peer-deps` or `yarn install`
 
 6. Start react app `npm start` or `yarn start`
 
