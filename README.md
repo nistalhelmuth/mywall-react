@@ -39,4 +39,4 @@ This is a example implementation of the React Framework. It is implemented with 
 11. Feel free to try
 
 
-![UI](https://github.com/nistalhelmuth/mywall-react/Photo.png "UI")
+![UI](https://github.com/nistalhelmuth/mywall-react/blob/master/Photo.png "UI")
