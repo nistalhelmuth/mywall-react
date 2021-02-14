@@ -56,8 +56,10 @@ export default connect(
     authId: selectors.getAuthId(state),
   }),
   (dispatch) => ({
-    fetchAllPost() {
-      dispatch(postActions.fetchAllPosts({}));
+    fetchAllPost(clean) {
+      dispatch(postActions.fetchAllPosts({
+        clean,
+      }));
     },
   }),
 )(Main);

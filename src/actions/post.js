@@ -2,11 +2,13 @@ import * as types from '../types/post';
 import { v4 as uuidv4 } from 'uuid';
 
 export const fetchAllPosts = ({
-  profileId
+  profileId,
+  clean,
 }) => ({
   type: types.FETCHED_ALL_POSTS,
   payload: {
     profileId,
+    clean,
   },
 });
 
