@@ -12,9 +12,16 @@ export const postDefaultState = {
 const post = (state = postDefaultState, action) => {
   switch(action.type) {
     case postTypes.FETCHED_ALL_POSTS: {
+      const {
+        payload: {
+          clean
+        }
+      } = action; 
       return {
         ...state,
         loadingPosts: true,
+        nextPage: clean ? state.currentPage : false,
+        currentPage: clean ? -1 : state.currentPage,
       }
     }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
@@ -182,6 +189,14 @@ const byId = (state={}, action) => {
       }
       return postByIdState;
     }
+    case postTypes.FETCHED_ALL_POSTS: {
+      const {
+        payload: {
+          clean
+        }
+      } = action; 
+      return clean ? {} : state
+    }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {
         payload: {
@@ -253,6 +268,14 @@ const order = (state=[], action) => {
       const postOrderState = [...state];
       postOrderState.shift();
       return postOrderState;
+    }
+    case postTypes.FETCHED_ALL_POSTS: {
+      const {
+        payload: {
+          clean
+        }
+      } = action; 
+      return clean ? [] : state
     }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {

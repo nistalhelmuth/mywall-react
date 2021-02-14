@@ -114,7 +114,7 @@ export default compose(
       authId: selectors.getAuthId(state),
     }),
     (dispatch, {...props}) => ({
-      fetchAllPostForUser() {
+      fetchAllPostForUser(clean) {
         const {
           match: {
             params: {
@@ -123,6 +123,7 @@ export default compose(
           }
         } = props;
         dispatch(postActions.fetchAllPosts({
+          clean,
           profileId,
         }));
       },
