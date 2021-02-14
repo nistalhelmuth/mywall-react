@@ -20,7 +20,7 @@ This is a example implementation of the React Framework. It is implemented with 
 
 ## 2. Dependencies Installation
 
-5. Open the proyecto folder in your terminal: `cd mywall-react`
+5. Open the project folder in your terminal: `cd mywall-react`
 
 6. Install node dependencies: `npm install` or `yarn install`
 
