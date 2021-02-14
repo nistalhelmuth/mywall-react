@@ -33,7 +33,9 @@ class Wall extends Component {
     const {
       fetchPosts
     } = this.props;
-    fetchPosts();
+    fetchPosts({
+      clean: true,
+    });
   }
 
   render() {
