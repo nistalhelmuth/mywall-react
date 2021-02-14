@@ -37,3 +37,6 @@ This is a example implementation of the React Framework. It is implemented with 
 10. Dont forget to start the Django project for the complete experience: https://github.com/nistalhelmuth/mywall_django
 
 11. Feel free to try
+
+
+![UI](https://github.com/nistalhelmuth/mywall-react/Photo.png "UI")
