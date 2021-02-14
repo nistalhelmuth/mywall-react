@@ -1,23 +1,15 @@
 import * as userTypes from '../types/user';
 
-const feelingsDict = {
-  H: 'Happy',
-  A: 'Angry',
-  S: 'Sad',
-  M: 'Motivated',
-  B: 'Bored',
-}
 const genreDict = {
   M: 'Male',
   F: 'Female',
 }
 
-const defaultUserState = {
+export const defaultUserState = {
   profileId: undefined,
   email: undefined,
   name: undefined,
   city: undefined,
-  visitors: undefined,
   genre: undefined,
   dateCreated: undefined,
   loading: undefined,
@@ -45,9 +37,7 @@ const user = (state = defaultUserState, action) => {
           email,
           name,
           city,
-          visitors,
           genre,
-          feeling,
           dateCreated,
         }
       } = action;
@@ -57,10 +47,8 @@ const user = (state = defaultUserState, action) => {
         email,
         name,
         city,
-        visitors,
         genre: genreDict[genre],
-        feeling: feelingsDict[feeling],
-        dateCreated: `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+        dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
       }
     }
     default: {

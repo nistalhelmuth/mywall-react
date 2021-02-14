@@ -8,7 +8,7 @@ const setUp = ({
   initialState
 }) => {
   const store = testStore(initialState);
-  const wrapper = shallow(<Wall {...props} store={store} />).dive();
+  const wrapper = shallow(<Wall.WrappedComponent {...props} store={store} />);
   return { wrapper, customPropTypes };
 };
 
@@ -17,7 +17,12 @@ describe('Wall Component', () => {
   describe('Should Render', () => {
     let component;
     beforeEach(() => {
-      component = setUp({}); 
+      component = setUp({
+        props: {
+          fetchPosts: jest.fn(),
+          createPost: jest.fn(),
+        }
+      }); 
     });
   
     it('Should render without errors', () => {
@@ -32,6 +37,8 @@ describe('Wall Component', () => {
       props: {
         enabledPost: true,
         loading: true,
+        fetchPosts: jest.fn(),
+        createPost: jest.fn(),
         posts: [
           {
             id: 1,
@@ -62,7 +69,12 @@ describe('Wall Component', () => {
   describe('Checking PropTypes', () => {
     let component;
     beforeEach(() => {
-      component = setUp({}); 
+      component = setUp({
+        props: {
+          fetchPosts: jest.fn(),
+          createPost: jest.fn(),
+        }
+      }); 
     });
 
     it('Should not throw a warning', () => {
@@ -79,6 +91,7 @@ describe('Wall Component', () => {
           },
         ],
         createPost: jest.fn(),
+        fetchPosts: jest.fn(),
         enabledPost: false,
         loadgin: false,
       };
