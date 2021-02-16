@@ -58,7 +58,7 @@ export const registerUser = ({
   email,
   name,
   city,
-  genre,
+  gender,
   password
 }) => ({
   type: types.USER_REGISTERED,
@@ -66,7 +66,7 @@ export const registerUser = ({
     email,
     name,
     city,
-    genre,
+    gender,
     password
   },
 });
@@ -108,7 +108,7 @@ export const fetchProfileInfoConfirm = ({
   name,
   city,
   visitors,
-  genre,
+  gender,
   feeling,
   dateCreated,
 }) => ({
@@ -119,7 +119,7 @@ export const fetchProfileInfoConfirm = ({
     name,
     city,
     visitors,
-    genre,
+    gender,
     feeling,
     dateCreated,
   },

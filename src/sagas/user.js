@@ -32,14 +32,17 @@ function* profileFetcher(action) {
         name: response.name,
         city: response.city,
         visitors: response.visitors,
-        genre: response.genre,
+        gender: response.gender,
         feeling: response.feeling,
         dateCreated: response.date_created,
       }));
     } else {
       yield put(userActions.fetchProfileInfoDecline({
-        message: response,
+        message: {
+          other: response.detail,
+        }
       }));
+      yield call(forwardTo, '/');
     }
     if (logout) {
       alert("Your session has expired");
@@ -47,7 +50,9 @@ function* profileFetcher(action) {
     }
   } catch (error) {
     yield put(userActions.fetchProfileInfoDecline({
-      message: "Something went wrong :(",
+      message: {
+        other:"Something went wrong :("
+      },
     }));
   }
 }
@@ -58,7 +63,7 @@ function* userRegister(action) {
       email,
       name,
       city,
-      genre,
+      gender,
       password,
     },
   } = action;
@@ -73,7 +78,7 @@ function* userRegister(action) {
       email,
       name,
       city,
-      genre,
+      gender,
       password,
     );
     if(!error){
@@ -83,7 +88,7 @@ function* userRegister(action) {
         email,
         name,
         city,
-        genre,
+        gender,
         password,
       }));
     } else {
@@ -140,10 +145,9 @@ function* userLogIn(action) {
       yield put(userActions.doLogout())
     }
   } catch (error) {
-    console.log(error)
     yield put(userActions.doLoginDecline({
       message: {
-        other: "Something went wrong :(",
+        email: "Something went wrong :(",
       },
     }));
   }

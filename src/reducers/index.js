@@ -21,7 +21,8 @@ export const getIfNextPage = (state) => fromPostReducer.getIfNextPage(state.post
 export const getCurrentPage = (state) => fromPostReducer.getCurrentPage(state.postReducer);
 export const getPageSize = (state) => fromPostReducer.getPageSize(state.postReducer);
 export const getPostLoading = (state) => fromPostReducer.getPostLoading(state.postReducer);
-export const getCommentsLoading = (state) => fromPostReducer.getCommentsLoading(state.postReducer);
+export const getCommentLoading = (state, postId) => fromPostReducer.getCommentLoading(state.postReducer, postId);
+export const getCommentErrorMessage = (state, postId) => fromPostReducer.getCommentErrorMessage(state.postReducer, postId);
 export const getAllPosts = (state) => fromPostReducer.getAllPosts(state.postReducer);
 export const getAllCommentsByPost = (state, postId) => fromPostReducer.getAllCommentsByPost(state.postReducer, postId);
 

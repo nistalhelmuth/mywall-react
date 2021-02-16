@@ -81,6 +81,7 @@ function* commentsFetcher(action) {
     } else {
       yield put(postActions.fetchAllCommentsDecline({
         message: response,
+        postId,
       }));
     }
     if (logout) {
@@ -90,6 +91,7 @@ function* commentsFetcher(action) {
   } catch (error) {
     yield put(postActions.fetchAllCommentsDecline({
       message: "Something went wrong :(",
+      postId,
     }));
   }
 }
@@ -119,7 +121,7 @@ function* postCreator(action) {
         randomId,
         content: response.content,
         date_created: response.date_created,
-        created_by: response.created_by,
+        createdBy: response.created_by,
       })); 
     } else {
       yield put(postActions.createPostDecline({
