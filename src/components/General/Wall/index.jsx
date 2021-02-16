@@ -65,7 +65,8 @@ class Wall extends Component {
                     content={post.content}
                     dateCreated={post.dateCreated}
                     comments={post.comments}
-                    created_by={post.created_by}
+                    createdBy={post.createdBy}
+                    enableComments
                   />
                 ))
               }

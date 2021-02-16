@@ -31,13 +31,11 @@ const registerCamps = [
     name: "Email",
     id: "email",
     placeholder: "email",
-    component: FormInput,
   },
   {
     name: "Password",
     id: "password",
     placeholder: "password",
-    component: FormInput,
     type: "password",
   },
 ]
@@ -97,7 +95,7 @@ const Header = ({
                 >
                   {
                     registerCamps.map((camp) => (
-                        <camp.component
+                        <FormInput
                           handleBlur={handleBlur}
                           name={camp.id}
                           onChange={handleChange}
