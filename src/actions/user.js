@@ -25,11 +25,11 @@ export const doLoginConfirm = ({
 });
 
 export const doLoginDecline = ({
-  error,
+  message,
 }) => ({
   type: types.USER_LOGED_IN_FAILED,
   payload: {
-    error,
+    message,
   },
 });
 
@@ -85,11 +85,11 @@ export const registerUserConfirm = ({
 });
 
 export const registerUserDecline = ({
-  error,
+  message,
 }) => ({
   type: types.USER_REGISTERED_FAILED,
   payload: {
-    error,
+    message,
   },
 });
 
@@ -126,10 +126,10 @@ export const fetchProfileInfoConfirm = ({
 });
 
 export const fetchProfileInfoDecline = ({
-  error,
+  message,
 }) => ({
   type: types.FETCHED_USER_PROFILE_FAILED,
   payload: {
-    error,
+    message,
   },
 });

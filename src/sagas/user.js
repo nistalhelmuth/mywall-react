@@ -2,6 +2,7 @@ import {
   put,
   takeLatest,
   call,
+  delay,
 } from 'redux-saga/effects';
 import { forwardTo } from '../history';
 import * as userTypes from '../types/user';
@@ -14,24 +15,39 @@ function* profileFetcher(action) {
       profileId,
     },
   } = action;
+  yield delay(500);
   try {
-    const response = yield call(
+    const {
+      response,
+      error,
+      logout,
+    } = yield call(
       postApi.getProfileInfo,
       profileId
     );
-    yield put(userActions.fetchProfileInfoConfirm({
-      profileId: response.id,
-      email: response.email,
-      name: response.name,
-      city: response.city,
-      visitors: response.visitors,
-      genre: response.genre,
-      feeling: response.feeling,
-      dateCreated: response.date_created,
-    }));
-  } catch (message) {
+    if(!error){
+      yield put(userActions.fetchProfileInfoConfirm({
+        profileId: response.id,
+        email: response.email,
+        name: response.name,
+        city: response.city,
+        visitors: response.visitors,
+        genre: response.genre,
+        feeling: response.feeling,
+        dateCreated: response.date_created,
+      }));
+    } else {
+      yield put(userActions.fetchProfileInfoDecline({
+        message: response,
+      }));
+    }
+    if (logout) {
+      alert("Your session has expired");
+      yield put(userActions.doLogout())
+    }
+  } catch (error) {
     yield put(userActions.fetchProfileInfoDecline({
-      error: message,
+      message: "Something went wrong :(",
     }));
   }
 }
@@ -46,8 +62,13 @@ function* userRegister(action) {
       password,
     },
   } = action;
+  yield delay(500);
   try {
-    const response = yield call(
+    const {
+      response,
+      error,
+      logout,
+    } = yield call(
       postApi.registerUser,
       email,
       name,
@@ -55,18 +76,30 @@ function* userRegister(action) {
       genre,
       password,
     );
-    yield call(forwardTo, '/');
-    yield put(userActions.registerUserConfirm({
-      profileId: response.id,
-      email,
-      name,
-      city,
-      genre,
-      password,
-    }));
-  } catch (message) {
+    if(!error){
+      yield call(forwardTo, '/');
+      yield put(userActions.registerUserConfirm({
+        profileId: response.id,
+        email,
+        name,
+        city,
+        genre,
+        password,
+      }));
+    } else {
+      yield put(userActions.registerUserDecline({
+        message: response,
+      }));  
+    }
+    if (logout) {
+      alert("Your session has expired");
+      yield put(userActions.doLogout())
+    }
+  } catch (error) {
     yield put(userActions.registerUserDecline({
-      error: message,
+      message: {
+        other: "Something went wrong :("
+      },
     }));
   }
 }
@@ -78,22 +111,40 @@ function* userLogIn(action) {
       password,
     },
   } = action;
+  yield delay(500);
   try {
-    const response = yield call(
+    const {
+      response,
+      error,
+      logout,
+    } = yield call(
       postApi.doLogin,
       email,
       password,
     );
-    yield put(userActions.doLoginConfirm({
-      id: response.id,
-      token: response.token,
-      name: response.name,
-    }));
-  } catch (message) {
+    if(!error){
+      yield put(userActions.doLoginConfirm({
+        id: response.id,
+        token: response.token,
+        name: response.name,
+      }));
+    } else {
+      yield put(userActions.doLoginDecline({
+        message: {
+          email: response.error,
+        }
+      }));
+    }
+    if (logout) {
+      alert("Your session has expired");
+      yield put(userActions.doLogout())
+    }
+  } catch (error) {
+    console.log(error)
     yield put(userActions.doLoginDecline({
-      error: {
-        email: message.error,
-      }
+      message: {
+        other: "Something went wrong :(",
+      },
     }));
   }
 }

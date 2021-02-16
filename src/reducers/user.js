@@ -12,22 +12,36 @@ export const defaultUserState = {
   city: undefined,
   genre: undefined,
   dateCreated: undefined,
-  loading: undefined,
-  registerErrors: undefined,
+  loading: false,
+  registerErrors: {
+    email: undefined,
+    name: undefined,
+    city: undefined,
+    genre: undefined,
+    password: undefined,
+    other: undefined,
+  },
 };
 
 const user = (state = defaultUserState, action) => {
   switch (action.type) {
+    case userTypes.USER_REGISTERED: {
+      return {
+        ...state,
+        loading: true,
+      }
+    }
     case userTypes.USER_LOGED_IN_FAILED: 
     case userTypes.USER_REGISTERED_FAILED: {
       const {
         payload: {
-          error
+          message
         } 
       } = action;
       return {
         ...state,
-        registerErrors: error,
+        loading: false,
+        registerErrors: message,
       }
     }
     case userTypes.FETCHED_USER_PROFILE_SUCCEEDED: {
@@ -48,11 +62,16 @@ const user = (state = defaultUserState, action) => {
         name,
         city,
         genre: genreDict[genre],
+        loading: false,
         dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
       }
     }
     default: {
-      return state;
+      return {
+        ...state,
+        loading: false,
+        registerErrors: defaultUserState.registerErrors,
+      }
     }
   }
 }
@@ -61,5 +80,6 @@ export default user;
 
 //selectores
 export const getUserErrors = (state) => state.registerErrors;
+export const getUserLoading = (state) => state.loading;
 export const getUserInformation = (state) => state;
 

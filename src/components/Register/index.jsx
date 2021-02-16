@@ -84,6 +84,7 @@ const registerCamps = [
 const Register = ({
   doRegister,
   stateErrors,
+  userLoading,
 }) => (
   <div className={styles.register}>
     <Formik 
@@ -141,6 +142,15 @@ const Register = ({
                 ))
               }
             </div>
+            <p>
+              &nbsp; 
+              {
+                userLoading && "Loading..."
+              }
+              {
+                stateErrors && stateErrors.other 
+              }
+            </p>
             <button type="submit">
               Submit
             </button>
@@ -156,6 +166,7 @@ Register.propTypes = customPropTypes;
 export default connect(
   (state) => ({
     stateErrors: selectors.getUserErrors(state),
+    userLoading: selectors.getUserLoading(state),
   }),
   (dispatch) => ({
     doRegister(values) {

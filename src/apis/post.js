@@ -14,9 +14,15 @@ export const getAllPosts = (
   Object.keys(params).forEach(key => params[key] && url.searchParams.append(key, params[key]))
   fetch(url).then((resultado) =>  {
     if (resultado.ok) {
-      resultado.json().then((res) => resolve(res));
+      resultado.json().then((res) => resolve({
+        response: res
+      }));
     } else {
-      resultado.json().then((res) => reject(res));
+      resultado.json().then((res) => resolve({
+        response: res,
+        error: true,
+        logout: resultado.status === 401,
+      }));
     }
   }).catch((error) => reject(error));
 });
@@ -27,9 +33,15 @@ export const getAllComments = (
   fetch(`${CURRENT_URL}/posts/${postId}/`)
   .then((resultado) =>  {
     if (resultado.ok) {
-      resultado.json().then((res) => resolve(res));
+      resultado.json().then((res) => resolve({
+        response: res
+      }));
     } else {
-      resultado.json().then((res) => reject(res));
+      resultado.json().then((res) => resolve({
+        response: res,
+        error: true,
+        logout: resultado.status === 401,
+      }));
     }
   }).catch((error) => reject(error));
 });
@@ -51,9 +63,15 @@ export const createPost = (
   })
   .then((resultado) =>  {
     if (resultado.ok) {
-      resultado.json().then((res) => resolve(res));
+      resultado.json().then((res) => resolve({
+        response: res
+      }));
     } else {
-      resultado.json().then((res) => reject(res));
+      resultado.json().then((res) => resolve({
+        response: res,
+        error: true,
+        logout: resultado.status === 401,
+      }));
     }
   }).catch((error) => reject(error));
 });
@@ -75,9 +93,15 @@ export const createComment = (
   })
   .then((resultado) =>  {
     if (resultado.ok) {
-      resultado.json().then((res) => resolve(res));
+      resultado.json().then((res) => resolve({
+        response: res
+      }));
     } else {
-      resultado.json().then((res) => reject(res));
+      resultado.json().then((res) => resolve({
+        response: res,
+        error: true,
+        logout: resultado.status === 401,
+      }));
     }
   }).catch((error) => reject(error));
 });

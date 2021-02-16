@@ -37,6 +37,7 @@ const post = (state = postDefaultState, action) => {
         nextPage,
         currentPage,
         loadingPosts: false,
+        postErrors: undefined,
       }
     }
     case postTypes.FETCHED_ALL_POSTS_FAILED: {
