@@ -2,11 +2,13 @@ import * as types from '../types/post';
 import { v4 as uuidv4 } from 'uuid';
 
 export const fetchAllPosts = ({
-  profileId
+  profileId,
+  clean,
 }) => ({
   type: types.FETCHED_ALL_POSTS,
   payload: {
     profileId,
+    clean,
   },
 });
 
@@ -47,14 +49,14 @@ export const createPostConfirm = ({
   randomId,
   content,
   date_created,
-  created_by,
+  createdBy,
 }) => ({
   type: types.CREATED_POST_SUCCEEDED,
   payload: {
     id,
     content,
     date_created,
-    created_by,
+    createdBy,
     randomId,
   },
 });
@@ -81,14 +83,14 @@ export const deletePostConfirm = ({
   id,
   content,
   date_created,
-  created_by,
+  createdBy,
 }) => ({
   type: types.DELETED_POST_SUCCEEDED,
   payload: {
     id,
     content,
     date_created,
-    created_by, 
+    createdBy, 
   },
 });
 
@@ -122,11 +124,13 @@ export const fetchAllCommentsConfirm = ({
 });
 
 export const fetchAllCommentsDecline = ({
+  postId,
   message,
 }) => ({
   type: types.FETCHED_ALL_COMMENTS_FAILED,
   payload: {
     message,
+    postId,
   },
 });
 

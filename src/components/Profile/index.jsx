@@ -54,11 +54,12 @@ class Profile extends Component {
       posts,
       fetchAllPostForUser,
       postLoading,
+      userErrors,
       userInformation: {
         email,
         name,
         city,
-        genre,
+        gender,
         dateCreated,
       },
       authId,
@@ -76,21 +77,51 @@ class Profile extends Component {
             alt="profileImage"
             className={styles.profileImage}
           />
-          <p>
-            mail: {name}
-          </p>
-          <p>
-            email: {email}
-          </p>
-          <p>
-            city: {city}
-          </p>
-          <p>
-            genre: {genre}
-          </p>
-          <p>
-            date joined: {dateCreated}
-          </p>
+          {
+            userErrors && userErrors.other ? (
+              <p>
+                {userErrors.other}
+              </p>
+            ) : (
+              <>
+                {
+                  name && (
+                    <p>
+                      name: {name}
+                    </p>
+                  )
+                }
+                {
+                  email && (
+                    <p>
+                      email: {email}
+                    </p>
+                  )
+                }
+                {
+                  city && (
+                    <p>
+                      city: {city}
+                    </p>
+                  )
+                }
+                {
+                  gender && (
+                    <p>
+                      gender: {gender}
+                    </p>
+                  )
+                }
+                {
+                  dateCreated && (
+                    <p>
+                      date joined: {dateCreated}
+                    </p>
+                  )
+                }
+              </>
+            )
+          }
         </div>
         <Wall
           fetchPosts={fetchAllPostForUser}
@@ -111,10 +142,11 @@ export default compose(
       postLoading: selectors.getPostLoading(state),
       posts: selectors.getAllPosts(state), 
       userInformation: selectors.getUserInformation(state),
+      userErrors: selectors.getUserErrors(state),
       authId: selectors.getAuthId(state),
     }),
     (dispatch, {...props}) => ({
-      fetchAllPostForUser() {
+      fetchAllPostForUser(clean) {
         const {
           match: {
             params: {
@@ -123,6 +155,7 @@ export default compose(
           }
         } = props;
         dispatch(postActions.fetchAllPosts({
+          clean,
           profileId,
         }));
       },

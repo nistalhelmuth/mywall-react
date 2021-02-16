@@ -3,7 +3,7 @@ import * as postTypes from '../types/post';
 
 export const postDefaultState = {
   loadingPosts: false,
-  loadingComments: false,
+  postErrors: undefined,
   nextPage: false,
   currentPage: -1,
   pageSize: 3,
@@ -12,9 +12,16 @@ export const postDefaultState = {
 const post = (state = postDefaultState, action) => {
   switch(action.type) {
     case postTypes.FETCHED_ALL_POSTS: {
+      const {
+        payload: {
+          clean
+        }
+      } = action; 
       return {
         ...state,
         loadingPosts: true,
+        nextPage: clean ? false : state.currentPage,
+        currentPage: clean ? -1 : state.currentPage,
       }
     }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
@@ -29,25 +36,19 @@ const post = (state = postDefaultState, action) => {
         nextPage,
         currentPage,
         loadingPosts: false,
+        postErrors: undefined,
       }
     }
     case postTypes.FETCHED_ALL_POSTS_FAILED: {
+      const {
+        payload: {
+          message,
+        },
+      } = action;
       return {
         ...state,
         loadingPosts: false,
-      }
-    }
-    case postTypes.FETCHED_ALL_COMMENTS: {
-      return {
-        ...state,
-        loadingComments: true,
-      }
-    }
-    case postTypes.FETCHED_ALL_COMMENTS_SUCCEEDED:
-    case postTypes.FETCHED_ALL_COMMENTS_FAILED: {
-      return {
-        ...state,
-        loadingComments: false,
+        postErrors: message,
       }
     }
     default: {
@@ -82,7 +83,7 @@ const byId = (state={}, action) => {
           randomId,
           content,
           date_created,
-          created_by,
+          createdBy,
         },
       } = action;
       const date = new Date(date_created);
@@ -92,9 +93,10 @@ const byId = (state={}, action) => {
           id,
           content,
           dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
-          created_by,
+          createdBy,
           commentsById: {},
           commentsOrder: [],
+          commentsErrors: undefined,
         }
       }
       return postByIdState;
@@ -182,6 +184,14 @@ const byId = (state={}, action) => {
       }
       return postByIdState;
     }
+    case postTypes.FETCHED_ALL_POSTS: {
+      const {
+        payload: {
+          clean
+        }
+      } = action; 
+      return clean ? {} : state
+    }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {
         payload: {
@@ -194,12 +204,47 @@ const byId = (state={}, action) => {
         postByIdState[post.id] = {
           ...postByIdState[post.id],
           ...post,
+          createdBy: post.created_by,
           dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
           commentsById: {},
           commentsOrder: [],
+          loadingComments: false,
+          commentsErrors: false,
         }
       });
       return postByIdState;
+    }
+    case postTypes.FETCHED_ALL_COMMENTS: {
+      const {
+        payload: {
+          postId,
+        },
+      } = action;
+      const oldPost = state[postId];
+      return {
+        ...state,
+        [postId]: {
+          ...oldPost,
+          loadingComments: true,
+        },
+      }
+    }
+    case postTypes.FETCHED_ALL_COMMENTS_FAILED: {
+      const {
+        payload: {
+          postId,
+          message,
+        },
+      } = action;
+      const oldPost = state[postId];
+      return {
+        ...state,
+        [postId]: {
+          ...oldPost,
+          loadingComments: false,
+          commentsErrors: message,
+        },
+      }
     }
     case postTypes.FETCHED_ALL_COMMENTS_SUCCEEDED: {
       const {
@@ -215,6 +260,7 @@ const byId = (state={}, action) => {
         commentsById[comment.id] = {
           ...commentsById[comment.id],
           ...comment,
+          createdBy: comment.created_by,
           dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
         }
       });;
@@ -225,6 +271,7 @@ const byId = (state={}, action) => {
           ...oldPost,
           commentsById,
           commentsOrder,
+          loadingComments: false,
         }
       }
       return postByIdState;
@@ -254,6 +301,14 @@ const order = (state=[], action) => {
       postOrderState.shift();
       return postOrderState;
     }
+    case postTypes.FETCHED_ALL_POSTS: {
+      const {
+        payload: {
+          clean
+        }
+      } = action; 
+      return clean ? [] : state
+    }
     case postTypes.FETCHED_ALL_POSTS_SUCCEEDED: {
       const {
         payload: {
@@ -279,11 +334,13 @@ export default combineReducers({
 })
 
 //selectores
+export const getPostErrors = (state) => state.post.postErrors;
 export const getIfNextPage = (state) => state.post.nextPage;
 export const getCurrentPage = (state) => state.post.currentPage;
 export const getPageSize = (state) => state.post.pageSize;
 export const getPostLoading = (state) => state.post.loadingPosts;
-export const getCommentsLoading = (state) => state.post.loadingComments;
+export const getCommentLoading = (state, postId) => getPostById(state, postId).loadingComments;
+export const getCommentErrorMessage = (state, postId) => getPostById(state, postId).commentsErrors;
 export const getAllPosts = (state) => state.order.map((id) => getPostById(state, id));
 export const getPostById = (state, id) => state.byId[id] || undefined; 
 export const getCommentById = (state, postId, commentId) => state.byId[postId] ? state.byId[postId].commentsById[commentId] : undefined;
