@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import CommentForm from '../CommentForm'
+import PostForm from '../PostForm'
 import Comment from '../Comment'
 import * as postActions from '../../../actions/post';
 import * as selectors from '../../../reducers';
@@ -107,7 +107,7 @@ class Post extends Component {
               <>
                 {
                   authId && (
-                    <CommentForm onSubmit={createComment}/>
+                    <PostForm onSubmit={createComment}/>
                   )
                 }
                 {

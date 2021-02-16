@@ -1,9 +1,9 @@
 import React from 'react';
-import FormTextArea from '../FormTextArea';
 import { useFormik } from 'formik';
-import styles from './commentForm.module.css';
+import PropTypes from 'prop-types';
+import styles from './postForm.module.css';
 
-const CommentForm = ({
+const PostForm = ({
   onSubmit
 }) => {
   const formik = useFormik({
@@ -15,16 +15,23 @@ const CommentForm = ({
   return (
     <form className={styles.form} onSubmit={formik.handleSubmit}>
       <button type="submit">Comment</button>
-      <FormTextArea
+      <textarea
         id="content"
         name="content"
         placeholder="Write Something..."
         onChange={formik.handleChange}
         value={formik.values.content}
+        autoFocus={false}
+        formNoValidate
+        className={styles.formTextArea}
       />
     </form>
 
   );
 };
 
-export default CommentForm;
+PostForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+}
+
+export default PostForm;

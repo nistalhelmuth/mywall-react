@@ -3,6 +3,7 @@ import * as postTypes from '../types/post';
 
 export const postDefaultState = {
   loadingPosts: false,
+  postErrors: undefined,
   loadingComments: false,
   nextPage: false,
   currentPage: -1,
@@ -20,7 +21,7 @@ const post = (state = postDefaultState, action) => {
       return {
         ...state,
         loadingPosts: true,
-        nextPage: clean ? state.currentPage : false,
+        nextPage: clean ? false : state.currentPage,
         currentPage: clean ? -1 : state.currentPage,
       }
     }
@@ -39,9 +40,15 @@ const post = (state = postDefaultState, action) => {
       }
     }
     case postTypes.FETCHED_ALL_POSTS_FAILED: {
+      const {
+        payload: {
+          message,
+        },
+      } = action;
       return {
         ...state,
         loadingPosts: false,
+        postErrors: message,
       }
     }
     case postTypes.FETCHED_ALL_COMMENTS: {
@@ -302,6 +309,7 @@ export default combineReducers({
 })
 
 //selectores
+export const getPostErrors = (state) => state.post.postErrors;
 export const getIfNextPage = (state) => state.post.nextPage;
 export const getCurrentPage = (state) => state.post.currentPage;
 export const getPageSize = (state) => state.post.pageSize;

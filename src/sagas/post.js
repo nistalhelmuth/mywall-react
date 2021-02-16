@@ -22,14 +22,14 @@ function* postFetcher(action) {
   } = action;
   const currentPage = yield select(getCurrentPage);
   const pageSize = yield select(getPageSize);
+  yield delay(500);
   try {
     const response = yield call(
-      postApi.getAllPosts,
-      profileId,
-      pageSize,
-      currentPage + 1,
-    );
-    yield delay(500);
+    postApi.getAllPosts,
+    profileId,
+    pageSize,
+    currentPage + 1,
+  );
     yield put(postActions.fetchAllPostsConfirm({
       allPosts: response.results,
       currentPage: currentPage + 1, 
@@ -37,7 +37,7 @@ function* postFetcher(action) {
     }));
   } catch (error) {
     yield put(postActions.fetchAllPostsDecline({
-      message: error,
+      message: "Something went wrong :(",
     }));
   }
 }
@@ -48,12 +48,12 @@ function* commentsFetcher(action) {
       postId,
     },
   } = action;
+  yield delay(500);
   try {
     const response = yield call(
       postApi.getAllComments,
       postId
     );
-    yield delay(500);
     yield put(postActions.fetchAllCommentsConfirm({
       allComments: response,
       postId,
