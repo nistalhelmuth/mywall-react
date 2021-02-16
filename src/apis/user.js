@@ -6,9 +6,15 @@ export const getProfileInfo = (
   fetch(`${CURRENT_URL}/users/profile/${profileId}/`)
   .then((resultado) =>  {
     if (resultado.ok) {
-      resultado.json().then((res) => resolve(res));
+      resultado.json().then((res) => resolve({
+        response: res
+      }));
     } else {
-      resultado.json().then((res) => reject(res));
+      resultado.json().then((res) => resolve({
+        response: res,
+        error: true,
+        logout: resultado.status === 401,
+      }));
     }
   }).catch((error) => reject(error));
 });
@@ -35,9 +41,15 @@ export const registerUser = (
   })
   .then((resultado) =>  {
     if (resultado.ok) {
-      resultado.json().then((res) => resolve(res));
+      resultado.json().then((res) => resolve({
+        response: res
+      }));
     } else {
-      resultado.json().then((res) => reject(res));
+      resultado.json().then((res) => resolve({
+        response: res,
+        error: true,
+        logout: resultado.status === 401,
+      }));
     }
   }).catch((error) => reject(error));
 });
@@ -58,9 +70,15 @@ export const doLogin = (
   })
   .then((resultado) =>  {
     if (resultado.ok) {
-      resultado.json().then((res) => resolve(res));
+      resultado.json().then((res) => resolve({
+        response: res
+      }));
     } else {
-      resultado.json().then((res) => reject(res));
+      resultado.json().then((res) => resolve({
+        response: res,
+        error: true,
+        logout: resultado.status === 401,
+      }));
     }
   }).catch((error) => reject(error));
 });

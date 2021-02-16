@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Formik } from 'formik';
 import PropTypes from 'prop-types';
-import FormTextArea from '../FormTextArea';
+import PostForm from '../PostForm';
 import Post from '../Post'
 import * as postActions from '../../../actions/post';
 import * as selectors from '../../../reducers';
@@ -46,96 +45,69 @@ class Wall extends Component {
       loading,
       fetchPosts,
       next,
+      postErrors,
     } = this.props
     return (
       <div className={styles.wall} data-test="wallComponent">
-          {
-            enabledPost && (
-              <Formik
-                  data-test="postFormComponent"
-                  initialValues={{
-                    content: '',
-                  }}
-                  onSubmit={(values) => {
-                    createPost(values);
-                  }}
-              > 
-                {({
-                  values,
-                  handleChange,
-                  handleSubmit,
-                }) => (
-                    <form
-                      className={styles.form}
-                      onSubmit={handleSubmit}
-                    >
-                      <button type="submit">Post</button>
-                      <FormTextArea
-                        id="content"
-                        name="content"
-                        type="text"
-                        placeholder="Write something..."
-                        onChange={handleChange}
-                        value={values.content}
-                      />
-                    </form>
-                  )
-                }
-              </ Formik>
-            )
-          }
-          {
-            posts && posts.length ? (
-              <>
-                {
-                  posts.map((post) => (
-                    <Post
-                      key={post.id}
-                      postId={post.id}
-                      content={post.content}
-                      dateCreated={post.dateCreated}
-                      comments={post.comments}
-                      created_by={post.created_by}
-                    />
-                  ))
-                }
-              </>
-            ) : (
-              <>
-                {
-                  !loading && (
-                    <p data-test="postPlaceholderComponent">
-                      No posts to display
-                    </p>
-                  )
-                }
-              </>
-            )
-          }
-          {
-            loading ? (
-              <h3 className={styles.loading} data-test="postLoadingComponent">
-                Loading...
-              </h3>
-            ) : (
-              <>
-                {
-                  next && (
-                    <button className={styles.more} onClick={() => fetchPosts()}>
-                      more
-                    </button>
-                  )
-                }
-              </>
-            )
-          }
-        </div>
+        {
+          enabledPost && (
+            <PostForm onSubmit={createPost}/>
+          )
+        }
+        {
+          posts && posts.length && postErrors === undefined ? (
+            <>
+              {
+                posts.map((post) => (
+                  <Post
+                    key={post.id}
+                    postId={post.id}
+                    content={post.content}
+                    dateCreated={post.dateCreated}
+                    comments={post.comments}
+                    createdBy={post.createdBy}
+                    enableComments
+                  />
+                ))
+              }
+            </>
+          ) : (
+            <>
+              {
+                !loading && (
+                  <p data-test="postPlaceholderComponent">
+                    {postErrors ? postErrors  : "No posts to display"}
+                  </p>
+                )
+              }
+            </>
+          )
+        }
+        {
+          loading ? (
+            <h3 className={styles.loading} data-test="postLoadingComponent">
+              Loading...
+            </h3>
+          ) : (
+            <>
+              {
+                next && (
+                  <button className={styles.more} onClick={() => fetchPosts()}>
+                    more
+                  </button>
+                )
+              }
+            </>
+          )
+        }
+      </div>
     )
   }
 }
 
 export default connect(
   (state) => ({
+    postErrors: selectors.getPostErrors(state),
     next: selectors.getIfNextPage(state),
   }),
   (dispatch) => ({

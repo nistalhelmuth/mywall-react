@@ -49,14 +49,14 @@ export const createPostConfirm = ({
   randomId,
   content,
   date_created,
-  created_by,
+  createdBy,
 }) => ({
   type: types.CREATED_POST_SUCCEEDED,
   payload: {
     id,
     content,
     date_created,
-    created_by,
+    createdBy,
     randomId,
   },
 });
@@ -83,14 +83,14 @@ export const deletePostConfirm = ({
   id,
   content,
   date_created,
-  created_by,
+  createdBy,
 }) => ({
   type: types.DELETED_POST_SUCCEEDED,
   payload: {
     id,
     content,
     date_created,
-    created_by, 
+    createdBy, 
   },
 });
 
@@ -124,11 +124,13 @@ export const fetchAllCommentsConfirm = ({
 });
 
 export const fetchAllCommentsDecline = ({
+  postId,
   message,
 }) => ({
   type: types.FETCHED_ALL_COMMENTS_FAILED,
   payload: {
     message,
+    postId,
   },
 });
 
