@@ -23,7 +23,7 @@ export const registerUser = (
   email,
   name,
   city,
-  genre,
+  gender,
   password,
 ) => new Promise((resolve, reject) => {
   fetch(`${CURRENT_URL}/users/register/`, {
@@ -35,7 +35,7 @@ export const registerUser = (
       email,
       name,
       city,
-      genre,
+      gender,
       password,
     })
   })
