@@ -295,4 +295,189 @@ describe('Post Reducer', () => {
       });
     });
 
+    it('Checking comment creation', () => {
+      const newState = postReducer({
+        byId: {
+        1:  {
+          id: 1,
+          content: "Content test text",
+          dateCreated: "2/7/2021",
+          commentsById: {},
+          commentsOrder: [],
+          commentsErrors: undefined,
+          loadingComments: false,            
+          createdBy: {
+            id: 1,
+            name: "Test name"
+          },
+        },
+        },
+        order: [1]
+      }, {
+        type: types.COMMENTED_POST,
+        payload: {
+          content: "test content",
+          randomId: 2,
+          postId: 1,
+        }
+      });
+      expect(newState).toEqual({
+        post: {
+          loadingPosts: false,
+          postErrors: undefined,
+          nextPage: false,
+          currentPage: -1,
+          pageSize: 3,
+        },
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                content: "test content"
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      });
+    });
+
+    it('Checking comment creation succeeded', () => {
+      const newState = postReducer({
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                content: "test content"
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      }, {
+        type: types.COMMENTED_POST_SUCCEEDED,
+        payload: {
+          content: "test content",
+          dateCreated: "2/7/2021",
+          createdBy: {
+            id: 1,
+            name: "Test name"
+          },
+          id: 3,
+          randomId: 2,
+          postId: 1,
+        }
+      });
+      expect(newState).toEqual({
+        post: {
+          loadingPosts: false,
+          postErrors: undefined,
+          nextPage: false,
+          currentPage: -1,
+          pageSize: 3,
+        },
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                dateCreated: "2/7/2021",
+                content: "test content",
+                id: 3,
+                createdBy: {
+                  id: 1,
+                  name: "Test name"
+                },
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      });
+    });
+
+    it('Checking comment creation failed', () => {
+      const newState = postReducer({
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                content: "test content"
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      }, {
+        type: types.COMMENTED_POST_FAILED,
+        payload: {
+          randomId: 2,
+          postId: 1,
+        }
+      });
+      expect(newState).toEqual({
+        post: {
+          loadingPosts: false,
+          postErrors: undefined,
+          nextPage: false,
+          currentPage: -1,
+          pageSize: 3,
+        },
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {},
+            commentsOrder: [],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      });
+    });
 });

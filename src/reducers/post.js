@@ -143,6 +143,7 @@ const byId = (state={}, action) => {
       const {
         payload: {
           postId,
+          id,
           content,
           createdBy,
           dateCreated,
@@ -159,7 +160,7 @@ const byId = (state={}, action) => {
             ...state[postId].commentsById,
             [randomId] : {
               content,
-              id: postId,
+              id,
               createdBy,
               dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
             },

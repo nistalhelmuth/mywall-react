@@ -149,6 +149,7 @@ export const commentPost = ({
 });
 
 export const commentPostConfirm = ({
+  id,
   postId,
   randomId,
   content,
@@ -157,6 +158,7 @@ export const commentPostConfirm = ({
 }) => ({
   type: types.COMMENTED_POST_SUCCEEDED,
   payload: {
+    id,
     postId,
     content,
     randomId,
