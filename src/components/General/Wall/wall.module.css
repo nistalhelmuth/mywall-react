@@ -11,6 +11,10 @@
   text-align: center;
 }
 
+.wall .error {
+  text-align: center;
+}
+
 .wall .more {
   height: 75px;
   width: 100%;

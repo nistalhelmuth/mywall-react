@@ -48,9 +48,17 @@ class Wall extends Component {
       fetchPosts,
       next,
       postErrors,
+      wallErrors,
     } = this.props
     return (
       <div className={styles.wall} data-test="wallComponent">
+        {
+          !loading && wallErrors && (
+            <p className={styles.error}>
+              {wallErrors}
+            </p>
+          )
+        }
         {
           enabledPost && (
             <PostForm data-test="postFormComponent" onSubmit={createPost}/>
@@ -110,6 +118,7 @@ class Wall extends Component {
 export default connect(
   (state) => ({
     postErrors: selectors.getPostErrors(state),
+    wallErrors: selectors.getWallErrors(state),
     next: selectors.getIfNextPage(state),
   }),
   (dispatch) => ({

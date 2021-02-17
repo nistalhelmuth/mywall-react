@@ -102,6 +102,13 @@ class Post extends Component {
             showComments && (
               <>
                 {
+                  commentErrorMessage && (
+                    <p>
+                      {commentErrorMessage}
+                    </p>
+                  )
+                }
+                {
                   authId && (
                     <PostForm onSubmit={createComment}/>
                   )
@@ -123,21 +130,11 @@ class Post extends Component {
                   ) : (
                     <>
                       {
-                        commentErrorMessage ? (
+                        !commentLoading && (
                           <p>
-                            {commentErrorMessage}
+                            {authId ? "be the first to comment" : "No comment to show"}
                           </p>
-                        ) : (
-                        <>
-                          {
-                            !commentLoading && (
-                              <p>
-                                {authId ? "be the first to comment" : "No comment to show"}
-                              </p>
 
-                            )
-                          }
-                        </>
                         )
                       }
                     </>

@@ -84,9 +84,7 @@ describe('Post sagas', () => {
     }, postSagas.postFetcher, testAction);
     expect(dispatched).toEqual([
       postActions.fetchAllPostsDecline({
-        message: {
-          detail: "not found"
-        },
+        message: "not found",
       }),
     ]);
     resquestLogin.mockClear();
@@ -117,9 +115,7 @@ describe('Post sagas', () => {
     }, postSagas.postFetcher, testAction);
     expect(dispatched).toEqual([
       postActions.fetchAllPostsDecline({
-        message: {
-          detail: "not found"
-        },
+        message: "not found",
       }),
       userActions.doLogout()
     ]);
@@ -172,7 +168,7 @@ describe('Post sagas', () => {
     const dispatched = [];
     const resquestLogin = jest.spyOn(postApi, 'getAllComments').mockImplementation(() => Promise.resolve({
       response: {
-        detail: "Not Found"
+        detail: "not found"
       },
       error: true,
       logout: false,
@@ -185,9 +181,7 @@ describe('Post sagas', () => {
     }, postSagas.commentsFetcher, testAction);
     expect(dispatched).toEqual([
       postActions.fetchAllCommentsDecline({
-        message: {
-          detail: "Not Found"
-        },
+        message: "not found",
         postId: 1,
       }),
     ]);
@@ -198,7 +192,7 @@ describe('Post sagas', () => {
     const dispatched = [];
     const resquestLogin = jest.spyOn(postApi, 'getAllComments').mockImplementation(() => Promise.resolve({
       response: {
-        detail: "Not Found"
+        detail: "not found"
       },
       error: true,
       logout: true,
@@ -211,9 +205,7 @@ describe('Post sagas', () => {
     }, postSagas.commentsFetcher, testAction);
     expect(dispatched).toEqual([
       postActions.fetchAllCommentsDecline({
-        message: {
-          detail: "Not Found"
-        },
+        message: "not found",
         postId: 1,
       }),
       userActions.doLogout()
@@ -287,9 +279,7 @@ describe('Post sagas', () => {
     expect(dispatched).toEqual([
       postActions.createPostDecline({
         randomId: 2,
-        message: {
-          detail: "not found"
-        }
+        message: "not found",
       }),
     ]);
     resquestLogin.mockClear();
@@ -319,9 +309,7 @@ describe('Post sagas', () => {
     expect(dispatched).toEqual([
       postActions.createPostDecline({
         randomId: 2,
-        message: {
-          detail: "not found"
-        }
+        message: "not found",
       }),
       userActions.doLogout()
     ]);
@@ -398,9 +386,7 @@ describe('Post sagas', () => {
       postActions.commentPostDecline({
         postId: 1,
         randomId: 3,
-        message: {
-          detail: "not found"
-        }
+        message: "not found",
       }),
     ]);
     resquestLogin.mockClear();
@@ -432,9 +418,7 @@ describe('Post sagas', () => {
       postActions.commentPostDecline({
         postId: 1,
         randomId: 3,
-        message: {
-          detail: "not found"
-        }
+        message: "not found",
       }),
       userActions.doLogout()
     ]);

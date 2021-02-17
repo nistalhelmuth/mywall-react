@@ -24,16 +24,17 @@ export const customPropTypes = {
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
+    .max(40, 'Too Long')
     .required('Required'),
   name: Yup.string()
     .min(2, 'Too Short')
-    .max(50, 'Too Long')
+    .max(30, 'Too Long')
     .required('Required'),
   city: Yup.string()
     .min(2, 'Too Short')
-    .max(50, 'Too Long')
+    .max(30, 'Too Long')
     .required('Required'),
-  genre: Yup.string()
+  gender: Yup.string()
     .required('Required'),
   password: Yup.string()
     .min(2, 'Too Short')
@@ -60,9 +61,9 @@ const registerCamps = [
     placeholder: "city",
   },
   {
-    name: "Genre",
-    id: "genre",
-    placeholder: "genre",
+    name: "Gender",
+    id: "gender",
+    placeholder: "gender",
     type: "select",
     options: [
       {
@@ -100,12 +101,12 @@ const Register = ({
   >
     <Formik 
       initialValues={{
-        email: undefined,
-        name: undefined,
-        city: undefined,
-        genre: undefined,
-        password: undefined,
-        password2: undefined,
+        email: '',
+        name: '',
+        city: '',
+        genre: '',
+        password: '',
+        password2: '',
       }}
       validationSchema={SignupSchema}
       validate={values => {
@@ -186,7 +187,7 @@ export default connect(
         email: values.email,
         name: values.name,
         city: values.city,
-        genre: values.genre,
+        gender: values.gender,
         password: values.password,
       }))
     }
