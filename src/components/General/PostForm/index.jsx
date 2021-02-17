@@ -1,7 +1,14 @@
 import React from 'react';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import styles from './postForm.module.css';
+
+
+const PostSchema = Yup.object().shape({
+  content: Yup.string()
+    .max(280, 'Too Long')
+});
 
 const PostForm = ({
   onSubmit
@@ -10,6 +17,7 @@ const PostForm = ({
     initialValues={{
       content: undefined,
     }}
+    validationSchema={PostSchema}
     onSubmit={(values, actions) => {
       actions.resetForm({
         values: {
@@ -21,11 +29,12 @@ const PostForm = ({
   >
     {({
       values,
+      errors,
       handleChange,
       handleSubmit
     }) => (
       <form className={styles.form} onSubmit={handleSubmit}>
-        <button type="submit" disabled={!values.content || values.content === ''}>Comment</button>
+        <button type="submit" disabled={!values.content || values.content === '' || errors.content}>Comment</button>
         <textarea
           id="content"
           name="content"
