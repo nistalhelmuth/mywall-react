@@ -101,12 +101,12 @@ const Register = ({
   >
     <Formik 
       initialValues={{
-        email: undefined,
-        name: undefined,
-        city: undefined,
-        genre: undefined,
-        password: undefined,
-        password2: undefined,
+        email: '',
+        name: '',
+        city: '',
+        genre: '',
+        password: '',
+        password2: '',
       }}
       validationSchema={SignupSchema}
       validate={values => {

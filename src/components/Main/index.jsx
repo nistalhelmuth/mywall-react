@@ -40,7 +40,7 @@ class Main extends Component {
         <Wall
           fetchPosts={fetchAllPost}
           posts={posts}
-          enabledPost={authId}
+          enabledPost={authId? true : false}
           loading={postLoading}
         />
       </div>
