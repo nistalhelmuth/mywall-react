@@ -17,7 +17,11 @@ describe('Post Component', () => {
   describe('Should Render', () => {
     let component;
     beforeEach(() => {
-      component = setUp({}); 
+      component = setUp({
+        props: {
+          enableComments: true,
+        },
+      }); 
     });
   
     it('Should render without errors', () => {
@@ -29,7 +33,11 @@ describe('Post Component', () => {
   describe('Checking PropTypes', () => {
     let component;
     beforeEach(() => {
-      component = setUp({}); 
+      component = setUp({
+        props: {
+          enableComments: true,
+        },
+      }); 
     });
 
     it('Should not throw a warning', () => {
@@ -57,6 +65,7 @@ describe('Post Component', () => {
         authName: "Test name",
         fetchComments: jest.fn(),
         postId: 1,
+        enableComments: true,
       };
       const propsErr = checkProps(component, expectedProps)
       expect(propsErr).toBeUndefined();

@@ -3,7 +3,6 @@ import {
   takeLatest,
   call,
   select,
-  delay,
 } from 'redux-saga/effects';
 import {
   getUserToken,
@@ -12,9 +11,10 @@ import {
 } from '../reducers';
 import * as postTypes from '../types/post';
 import * as postActions from '../actions/post';
+import * as userActions from '../actions/user';
 import * as postApi from '../apis/post';
 
-function* postFetcher(action) {
+export function* postFetcher(action) {
   const {
     payload: {
       profileId,
@@ -23,49 +23,75 @@ function* postFetcher(action) {
   const currentPage = yield select(getCurrentPage);
   const pageSize = yield select(getPageSize);
   try {
-    const response = yield call(
+    const {
+      response,
+      error,
+      logout,
+    } = yield call(
       postApi.getAllPosts,
       profileId,
       pageSize,
       currentPage + 1,
     );
-    yield delay(500);
-    yield put(postActions.fetchAllPostsConfirm({
-      allPosts: response.results,
-      currentPage: currentPage + 1, 
-      nextPage: response.next !== null ? true : false,
-    }));
+    if(!error) {
+      yield put(postActions.fetchAllPostsConfirm({
+        allPosts: response.results,
+        currentPage: currentPage + 1, 
+        nextPage: response.next !== null ? true : false,
+      }));
+    } else {
+      yield put(postActions.fetchAllPostsDecline({
+        message: response,
+      }));
+    }
+    if (logout) {
+      yield put(userActions.doLogout())
+    }
   } catch (error) {
     yield put(postActions.fetchAllPostsDecline({
-      message: error,
+      message: "Something went wrong :(",
     }));
   }
 }
 
-function* commentsFetcher(action) {
+export function* commentsFetcher(action) {
   const {
     payload: {
       postId,
     },
   } = action;
   try {
-    const response = yield call(
+    const {
+      response,
+      error,
+      logout,
+     } = yield call(
       postApi.getAllComments,
       postId
     );
-    yield delay(500);
-    yield put(postActions.fetchAllCommentsConfirm({
-      allComments: response,
-      postId,
-    }));
+    if(!error){
+      yield put(postActions.fetchAllCommentsConfirm({
+        allComments: response,
+        postId,
+      }));
+    } else {
+      yield put(postActions.fetchAllCommentsDecline({
+        message: response,
+        postId,
+      }));
+    }
+    if (logout) {
+      yield put(userActions.doLogout())
+    }
   } catch (error) {
     yield put(postActions.fetchAllCommentsDecline({
-      message: error,
+      message: "Something went wrong :(",
+      postId,
     }));
   }
 }
 
-function* postCreator(action) {
+export function* postCreator(action) {
   const {
     payload: {
       content,
@@ -74,27 +100,41 @@ function* postCreator(action) {
   } = action;
   const token = yield select(getUserToken);
   try {
-    const response = yield call(
+    const {
+      response,
+      error,
+      logout,
+     } = yield call(
       postApi.createPost,
       token,
       content
     );
-    yield put(postActions.createPostConfirm({
-      id: response.id,
-      randomId,
-      content: response.content,
-      date_created: response.date_created,
-      created_by: response.created_by,
-    })); 
+    if(!error) {
+      yield put(postActions.createPostConfirm({
+        id: response.id,
+        randomId,
+        content: response.content,
+        date_created: response.date_created,
+        createdBy: response.created_by,
+      })); 
+    } else {
+      yield put(postActions.createPostDecline({
+        randomId,
+        message: response,
+      }));
+    }
+    if (logout) {
+      yield put(userActions.doLogout())
+    }
   } catch (error) {
     yield put(postActions.createPostDecline({
       randomId,
-      message: error,
+      message: "Something went wrong :(",
     }));
   }
 }
 
-function* commentCreator(action) {
+export function* commentCreator(action) {
   const {
     payload: {
       postId,
@@ -104,24 +144,39 @@ function* commentCreator(action) {
   } = action;
   const token = yield select(getUserToken);
   try {
-    const response = yield call(
+    const {
+      response,
+      error,
+      logout,
+     } = yield call(
       postApi.createComment,
       token,
       postId,
       content
     );
-    yield put(postActions.commentPostConfirm({
-      postId,
-      id: response.id,
-      content: response.content,
-      dateCreated: response.date_created,
-      createdBy: response.created_by,
-      randomId,
-    }));
+    if(!error) {
+      yield put(postActions.commentPostConfirm({
+        postId,
+        id: response.id,
+        content: response.content,
+        dateCreated: response.date_created,
+        createdBy: response.created_by,
+        randomId,
+      }));
+    } else {
+      yield put(postActions.commentPostDecline({
+        message: response,
+        postId,
+        randomId,
+      }));
+    }
+    if (logout) {
+      yield put(userActions.doLogout())
+    }
   } catch (error) {
     yield put(postActions.commentPostDecline({
+      message: "Something went wrong :(",
       postId,
-      message: error,
       randomId,
     }));
   }

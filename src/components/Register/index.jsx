@@ -4,14 +4,21 @@ import { connect } from "react-redux";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../General/FormInput';
-import FormSelect from '../General/FormSelect';
 import * as selectors from '../../reducers';
 import * as userActions from '../../actions/user';
 import styles from './register.module.css';
 
 export const customPropTypes = {
   doRegister: PropTypes.func.isRequired,
-  stateErrors: PropTypes.object,
+  stateErrors: PropTypes.shape({
+    email: PropTypes.string,
+    name: PropTypes.string,
+    city: PropTypes.string,
+    gender: PropTypes.string,
+    password: PropTypes.string,
+    other: PropTypes.string,
+  }),
+  userLoading: PropTypes.bool.isRequired,
 }
 
 const SignupSchema = Yup.object().shape({
@@ -41,25 +48,22 @@ const registerCamps = [
     name: "Email",
     id: "email",
     placeholder: "email",
-    component: FormInput,
   },
   {
     name: "Name",
     id: "name",
     placeholder: "name",
-    component: FormInput,
   },
   {
     name: "City",
     id: "city",
     placeholder: "city",
-    component: FormInput,
   },
   {
     name: "Genre",
     id: "genre",
     placeholder: "genre",
-    type: "options",
+    type: "select",
     options: [
       {
         label: 'Female',
@@ -70,20 +74,17 @@ const registerCamps = [
         value: 'M',
       },
     ],
-    component: FormSelect,
   },
   {
     name: "Password",
     id: "password",
     placeholder: "password",
-    component: FormInput,
     type: "password",
   },
   {
     name: "Check Password",
     id: "password2",
     placeholder: "password",
-    component: FormInput,
     type: "password",
   }
 ]
@@ -91,8 +92,12 @@ const registerCamps = [
 const Register = ({
   doRegister,
   stateErrors,
+  userLoading,
 }) => (
-  <div className={styles.register}>
+  <div
+    className={styles.register}
+    data-test="registerComponent"
+  >
     <Formik 
       initialValues={{
         email: undefined,
@@ -133,7 +138,8 @@ const Register = ({
             <div className={styles.camps}>
               {
                 registerCamps.map((camp) => (
-                  <camp.component
+                  <FormInput
+                    key={camp.id}
                     bigStyles
                     error={touched[camp.id] && (errors[camp.id] || (stateErrors && stateErrors[camp.id]))}
                     handleBlur={handleBlur}
@@ -148,6 +154,15 @@ const Register = ({
                 ))
               }
             </div>
+            <p>
+              &nbsp; 
+              {
+                userLoading && "Loading..."
+              }
+              {
+                stateErrors && stateErrors.other 
+              }
+            </p>
             <button type="submit">
               Submit
             </button>
@@ -163,6 +178,7 @@ Register.propTypes = customPropTypes;
 export default connect(
   (state) => ({
     stateErrors: selectors.getUserErrors(state),
+    userLoading: selectors.getUserLoading(state),
   }),
   (dispatch) => ({
     doRegister(values) {

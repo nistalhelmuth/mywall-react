@@ -25,11 +25,11 @@ export const doLoginConfirm = ({
 });
 
 export const doLoginDecline = ({
-  error,
+  message,
 }) => ({
   type: types.USER_LOGED_IN_FAILED,
   payload: {
-    error,
+    message,
   },
 });
 
@@ -58,7 +58,7 @@ export const registerUser = ({
   email,
   name,
   city,
-  genre,
+  gender,
   password
 }) => ({
   type: types.USER_REGISTERED,
@@ -66,7 +66,7 @@ export const registerUser = ({
     email,
     name,
     city,
-    genre,
+    gender,
     password
   },
 });
@@ -85,11 +85,11 @@ export const registerUserConfirm = ({
 });
 
 export const registerUserDecline = ({
-  error,
+  message,
 }) => ({
   type: types.USER_REGISTERED_FAILED,
   payload: {
-    error,
+    message,
   },
 });
 
@@ -107,9 +107,7 @@ export const fetchProfileInfoConfirm = ({
   email,
   name,
   city,
-  visitors,
-  genre,
-  feeling,
+  gender,
   dateCreated,
 }) => ({
   type: types.FETCHED_USER_PROFILE_SUCCEEDED,
@@ -118,18 +116,16 @@ export const fetchProfileInfoConfirm = ({
     email,
     name,
     city,
-    visitors,
-    genre,
-    feeling,
+    gender,
     dateCreated,
   },
 });
 
 export const fetchProfileInfoDecline = ({
-  error,
+  message,
 }) => ({
   type: types.FETCHED_USER_PROFILE_FAILED,
   payload: {
-    error,
+    message,
   },
 });

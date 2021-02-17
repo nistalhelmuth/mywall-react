@@ -16,6 +16,14 @@ import styles from './header.module.css';
 export const customPropTypes = {
   authorized: PropTypes.bool,
   doLogin: PropTypes.func.isRequired,
+  history: PropTypes.func.isRequired,
+  stateErrors: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+  }),
+  name: PropTypes.string,
+  doLogout: PropTypes.func.isRequired,
+  authId: PropTypes.string,
 }
 
 const SignupSchema = Yup.object().shape({
@@ -31,21 +39,19 @@ const registerCamps = [
     name: "Email",
     id: "email",
     placeholder: "email",
-    component: FormInput,
   },
   {
     name: "Password",
     id: "password",
     placeholder: "password",
-    component: FormInput,
     type: "password",
   },
 ]
 
 const Header = ({
   authorized,
-  history,
   doLogin,
+  history,
   stateErrors,
   name,
   doLogout,
@@ -97,7 +103,8 @@ const Header = ({
                 >
                   {
                     registerCamps.map((camp) => (
-                        <camp.component
+                        <FormInput
+                          key={camp.id}
                           handleBlur={handleBlur}
                           name={camp.id}
                           onChange={handleChange}

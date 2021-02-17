@@ -9,7 +9,7 @@ const setUp = ({
   initialState,
 }) => {
   const store = testStore(initialState);
-  const wrapper = shallow(<Header.WrappedComponent {...props} store={store} />)//.childAt(0).dive();
+  const wrapper = shallow(<Header.WrappedComponent store={store} {...props}/>);
   return { wrapper, customPropTypes};
 };
 
@@ -19,9 +19,9 @@ describe('Header Component', () => {
     let component;
     beforeEach(() => {
       component = setUp({
-        props: {
-          doLogin: jest.fn(),
-        }
+        doLogin: jest.fn(),
+        doLogout: jest.fn(),
+        history: jest.fn(),
       }); 
     });
   
@@ -35,13 +35,10 @@ describe('Header Component', () => {
     let component
     component = setUp({
       props: {
-        authorized: true,
         doLogin: jest.fn(),
-      },
-      initialState: {
-        authReducer: {
-          authenticated: true,
-        }
+        doLogout: jest.fn(),
+        history: jest.fn(),
+        authorized: true,
       }
     }); 
     it('Authorized', () => {
@@ -57,6 +54,8 @@ describe('Header Component', () => {
       component = setUp({
         props: {
           doLogin: jest.fn(),
+          doLogout: jest.fn(),
+          history: jest.fn(),
         }
       }); 
     });
@@ -65,6 +64,8 @@ describe('Header Component', () => {
         const expectedProps = {
           authorized: true,
           doLogin: jest.fn(),
+          doLogout: jest.fn(),
+          history: jest.fn(),
         };
         const propsErr = checkProps(component, expectedProps)
         expect(propsErr).toBeUndefined();

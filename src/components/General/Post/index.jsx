@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import CommentForm from '../CommentForm'
-import Comment from '../Comment'
+import PostForm from '../PostForm'
 import * as postActions from '../../../actions/post';
 import * as selectors from '../../../reducers';
 import styles from './post.module.css';
@@ -15,12 +14,12 @@ export const customPropTypes = {
     id: PropTypes.number,
     content: PropTypes.string,
     dateCreated: PropTypes.string,
-    created_by: PropTypes.shape({
+    createdBy: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
     }),
   })),
-  created_by: PropTypes.shape({
+  createdBy: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
   }),
@@ -30,6 +29,8 @@ export const customPropTypes = {
   authName: PropTypes.string,
   fetchComments: PropTypes.func.isRequired,
   postId: PropTypes.number,
+  enableComments: PropTypes.bool.isRequired,
+  commentErrorMessage: PropTypes.string,
 }
 
 class Post extends Component {
@@ -59,18 +60,20 @@ class Post extends Component {
       content,
       dateCreated,
       comments,
-      created_by,
+      createdBy,
       createComment,
       commentLoading,
       authId,
       authName,
+      enableComments,
+      commentErrorMessage,
     } = this.props;
     const {
       showComments,
     } = this.state;
     return(
       <div className={styles.post} data-test="postComponent">
-        <Link to={`/profile/${created_by ? created_by.id : authId}`}> 
+        <Link to={`/profile/${createdBy ? createdBy.id : authId}`}> 
           <img
             src="assets/defaultProfile.png"
             alt="profileImage"
@@ -78,27 +81,20 @@ class Post extends Component {
         </Link>
         <div className={styles.content}>
           <p className={styles.text}>
-            {created_by ? created_by.name : authName}
+            {createdBy ? createdBy.name : authName}
           </p>
           <p className={styles.text}>
             {content}
           </p>
           <p>
-            {created_by ? dateCreated : "Creating..."}
+            {createdBy ? dateCreated : "Creating..."}
           </p>
           <div className={styles.footer}>
             {
-              !showComments && created_by && (
+              !showComments && enableComments && createdBy && (
                 <button onClick={this.loadComments.bind(this)}>
                   View Comments
                 </button>
-              )
-            }
-            {
-              showComments && commentLoading && (
-                <h3 className={styles.loading}>
-                  Loading...
-                </h3>
               )
             }
           </div>
@@ -107,7 +103,7 @@ class Post extends Component {
               <>
                 {
                   authId && (
-                    <CommentForm onSubmit={createComment}/>
+                    <PostForm onSubmit={createComment}/>
                   )
                 }
                 {
@@ -115,11 +111,11 @@ class Post extends Component {
                     <div className={styles.bot}>
                       {
                         comments.map((comment) => (
-                          <Comment
+                          <Post
                             key={comment.id}
                             content={comment.content}
                             dateCreated={comment.dateCreated}
-                            created_by={comment.created_by}
+                            createdBy={comment.createdBy}
                           />
                         ))
                       }
@@ -127,14 +123,31 @@ class Post extends Component {
                   ) : (
                     <>
                       {
-                        !commentLoading && (
+                        commentErrorMessage ? (
                           <p>
-                            {authId ? "be the first to comment" : "No comment to show"}
+                            {commentErrorMessage}
                           </p>
+                        ) : (
+                        <>
+                          {
+                            !commentLoading && (
+                              <p>
+                                {authId ? "be the first to comment" : "No comment to show"}
+                              </p>
 
+                            )
+                          }
+                        </>
                         )
                       }
                     </>
+                  )
+                }
+                {
+                  commentLoading && (
+                    <p className={styles.loading}>
+                      Loading...
+                    </p>
                   )
                 }
               </>
@@ -148,7 +161,8 @@ class Post extends Component {
 
 export default connect(
   (state, { postId }) => ({
-    commentLoading: selectors.getCommentsLoading(state),
+    commentLoading: selectors.getCommentLoading(state, postId),
+    commentErrorMessage: selectors.getCommentErrorMessage(state, postId),
     comments: selectors.getAllCommentsByPost(state, postId),
     authId: selectors.getAuthId(state),
     authName: selectors.getAuthName(state),

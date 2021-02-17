@@ -12,8 +12,12 @@ const FormInput = ({
   value,
   handleBlur,
   bigStyles,
+  options,
 }) => (
-  <div className={bigStyles ? `${styles.formInput} ${styles.big}` : styles.formInput}>
+  <div
+    data-test="postFormComponent"
+    className={bigStyles ? `${styles.formInput} ${styles.big}` : styles.formInput}
+  >
     {
       label && (
         <label>
@@ -26,16 +30,46 @@ const FormInput = ({
         </label>
       )
     }
-    <input
-      onBlur={handleBlur}
-      name={name}
-      type={type}
-      onChange={onChange}
-      placeholder={placeholder}
-      value={value}
-      autoFocus={false}
-      formNoValidate
-    />
+    {
+      (type === "text" || type === "password") && (
+        <input
+          onBlur={handleBlur}
+          name={name}
+          type={type}
+          onChange={onChange}
+          placeholder={placeholder}
+          value={value}
+          autoFocus={false}
+          formNoValidate
+        />
+      )
+    }
+    {
+      type === "select" && (
+        <select
+          onBlur={handleBlur}
+          name={name}
+          type={type}
+          onChange={onChange}
+          placeholder={placeholder}
+          value={value}
+          autoFocus={false}
+          formNoValidate
+        >
+          <option />
+          {
+            options.map((option) => (
+              <option
+                value={option.value}
+                key={option.value}
+              >{option.label}</option>
+
+            ))
+          }
+        </select>
+      )
+    }
+    
     {
       !label && (
         <label>
@@ -52,9 +86,25 @@ const FormInput = ({
 );
 
 FormInput.propTypes = {
-  placeholder: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  error: PropTypes.string,
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.any,
+  handleBlur: PropTypes.func,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.any ,
+    label: PropTypes.string,
+  })),
+  bigStyles: PropTypes.bool,
+};
+
+FormInput.defaultProps = {
+  type: "text",
+  bigStyles: false,
+  placeholder: "",
 };
 
 export default FormInput;
