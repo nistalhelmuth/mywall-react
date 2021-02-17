@@ -29,6 +29,8 @@ export const customPropTypes = {
   authName: PropTypes.string,
   fetchComments: PropTypes.func.isRequired,
   postId: PropTypes.number,
+  enableComments: PropTypes.bool.isRequired,
+  commentErrorMessage: PropTypes.string,
 }
 
 class Post extends Component {

@@ -9,7 +9,7 @@ const setUp = ({
   initialState,
 }) => {
   const store = testStore(initialState);
-  const wrapper = shallow(<Profile.WrappedComponent {...props} store={store} />);
+  const wrapper = shallow(<Profile.WrappedComponent store={store} {...props}/>);
   return { wrapper, customPropTypes };
 };
 
@@ -31,7 +31,8 @@ describe('Profile Component', () => {
             params: {
               profileId: "2",
             }
-          }
+          },
+          fetchAllPostForUser: jest.fn(),
         },
       }); 
     });
@@ -59,7 +60,8 @@ describe('Profile Component', () => {
             params: {
               profileId: "2",
             }
-          }
+          },
+          fetchAllPostForUser: jest.fn(),
         },
       }); 
     });
@@ -79,6 +81,7 @@ describe('Profile Component', () => {
           ],
           postLoading: true,
           authId: 1,
+          fetchAllPostForUser: jest.fn(),
         };
         const propsErr = checkProps(component, expectedProps)
         expect(propsErr).toBeUndefined();

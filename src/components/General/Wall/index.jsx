@@ -18,9 +18,11 @@ export const customPropTypes = {
     }),
   })),
   fetchPosts: PropTypes.func.isRequired,
-  createPost: PropTypes.func.isRequired,
   enabledPost: PropTypes.bool,
+  createPost: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  next: PropTypes.bool,
+  postErrors: PropTypes.string,
 }
 
 

@@ -21,8 +21,12 @@ export const customPropTypes = {
       name: PropTypes.string,
     }),
   })),
+  fetchAllPostForUser: PropTypes.func.isRequired,
   postLoading: PropTypes.bool,
   authId: PropTypes.number,
+  userErrors: PropTypes.shape({
+    other: PropTypes.string,
+  }),
   userInformation: PropTypes.shape({
     email: PropTypes.string,
     name: PropTypes.string,
@@ -173,4 +177,4 @@ export default compose(
       },
     }),
   )
-)(Profile);
+)(Profile); 
