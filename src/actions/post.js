@@ -36,11 +36,12 @@ export const fetchAllPostsDecline = ({
 
 export const createPost = ({
   content,
+  randomId = uuidv4(),
 }) => ({
   type: types.CREATED_POST,
   payload: {
     content,
-    randomId: uuidv4(),
+    randomId,
   },
 });
 
@@ -137,16 +138,18 @@ export const fetchAllCommentsDecline = ({
 export const commentPost = ({
   postId,
   content,
+  randomId = uuidv4(),
 }) => ({
   type: types.COMMENTED_POST,
   payload: {
     postId,
     content,
-    randomId: uuidv4(),
+    randomId,
   },
 });
 
 export const commentPostConfirm = ({
+  id,
   postId,
   randomId,
   content,
@@ -155,6 +158,7 @@ export const commentPostConfirm = ({
 }) => ({
   type: types.COMMENTED_POST_SUCCEEDED,
   payload: {
+    id,
     postId,
     content,
     randomId,

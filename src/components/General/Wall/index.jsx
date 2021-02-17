@@ -18,9 +18,11 @@ export const customPropTypes = {
     }),
   })),
   fetchPosts: PropTypes.func.isRequired,
-  createPost: PropTypes.func.isRequired,
   enabledPost: PropTypes.bool,
+  createPost: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  next: PropTypes.bool,
+  postErrors: PropTypes.string,
 }
 
 
@@ -51,7 +53,7 @@ class Wall extends Component {
       <div className={styles.wall} data-test="wallComponent">
         {
           enabledPost && (
-            <PostForm onSubmit={createPost}/>
+            <PostForm data-test="postFormComponent" onSubmit={createPost}/>
           )
         }
         {

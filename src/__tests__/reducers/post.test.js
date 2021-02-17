@@ -15,12 +15,14 @@ describe('Post Reducer', () => {
     it('Checking fetch posts', () => {
       const newState = postReducer(undefined, {
         type: types.FETCHED_ALL_POSTS,
-        payload: {}
+        payload: {
+          clean: true,
+        }
       });
       expect(newState).toEqual({
         post: {
           loadingPosts: true,
-          loadingComments: false,
+          postErrors: undefined,
           nextPage: false,
           currentPage: -1,
           pageSize: 3,
@@ -28,7 +30,9 @@ describe('Post Reducer', () => {
         byId: {},
         order: []
       });
+    });
 
+    it('Checking fetch posts succeeded', () => {
       const newState2 = postReducer(undefined, {
         type: types.FETCHED_ALL_POSTS_SUCCEEDED,
         payload: {
@@ -50,7 +54,7 @@ describe('Post Reducer', () => {
       expect(newState2).toEqual({
         post: {
           loadingPosts: false,
-          loadingComments: false,
+          postErrors: undefined,
           nextPage: false,
           currentPage: 0,
           pageSize: 3,
@@ -60,10 +64,11 @@ describe('Post Reducer', () => {
             id: 1,
             content: "Content test text",
             dateCreated: "2/7/2021",
-            date_created: "2021-02-07T19:25:24Z",
             commentsById: {},
             commentsOrder: [],
-            created_by: {
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
               id: 1,
               name: "Test name"
             },
@@ -75,28 +80,35 @@ describe('Post Reducer', () => {
     });
 
     it('Checking fetch comments', () => {
-      const newState = postReducer(undefined, {
+      const newState = postReducer({
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            date_created: "2021-02-07T19:25:24Z",
+            commentsById: {},
+            commentsOrder: [],
+            commentsErrors: undefined,
+            loadingComments: false,
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      }, {
         type: types.FETCHED_ALL_COMMENTS,
-        payload: {}
+        payload: {
+          postId: 1,
+        }
       });
       expect(newState).toEqual({
         post: {
           loadingPosts: false,
-          loadingComments: true,
           nextPage: false,
           currentPage: -1,
-          pageSize: 3,
-        },
-        byId: {},
-        order: []
-      });
-
-      const newState2 = postReducer({
-        post: {
-          loadingPosts: false,
-          loadingComments: false,
-          nextPage: false,
-          currentPage: 0,
           pageSize: 3,
         },
         byId: {
@@ -107,7 +119,36 @@ describe('Post Reducer', () => {
             date_created: "2021-02-07T19:25:24Z",
             commentsById: {},
             commentsOrder: [],
-            created_by: {
+            commentsErrors: undefined,
+            loadingComments: true,
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      });
+    });
+
+    it('Checking fetch comments succeeded', () => {
+      const newState2 = postReducer({
+        post: {
+          loadingPosts: false,
+          postErrors: undefined,
+          nextPage: false,
+          currentPage: 0,
+          pageSize: 3,
+        },
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {},
+            commentsOrder: [],
+            loadingComments: true,
+            createdBy: {
               id: 1,
               name: "Test name"
             },
@@ -134,7 +175,7 @@ describe('Post Reducer', () => {
       expect(newState2).toEqual({
         post: {
           loadingPosts: false,
-          loadingComments: false,
+          postErrors: undefined,
           nextPage: false,
           currentPage: 0,
           pageSize: 3,
@@ -144,21 +185,20 @@ describe('Post Reducer', () => {
             id: 1,
             content: "Content test text",
             dateCreated: "2/7/2021",
-            date_created: "2021-02-07T19:25:24Z",
             commentsById: {
               1: {
                 id: 1,
                 content: "Content test text",
-                date_created: "2021-02-07T19:25:24Z",
                 dateCreated: "2/7/2021",
-                created_by: {
+                createdBy: {
                   id: 1,
                   name: "Test name"
                 },
               }
             },
             commentsOrder: [1],
-            created_by: {
+            loadingComments: false,
+            createdBy: {
               id: 1,
               name: "Test name"
             },
@@ -179,7 +219,7 @@ describe('Post Reducer', () => {
       expect(newState).toEqual({
         post: {
           loadingPosts: false,
-          loadingComments: false,
+          postErrors: undefined,
           nextPage: false,
           currentPage: -1,
           pageSize: 3,
@@ -193,7 +233,9 @@ describe('Post Reducer', () => {
         },
         order: [1]
       });
+    });
 
+    it('Checking posts creation succeeded', () => {
       const newState2 = postReducer(undefined, {
         type: types.CREATED_POST_SUCCEEDED,
         payload: {
@@ -201,7 +243,7 @@ describe('Post Reducer', () => {
           id: 1,
           date_created: "2021-02-07T19:25:24Z",
           randomId: 1,
-          created_by: {
+          createdBy: {
             id: 1,
             name: "Test name"
           },
@@ -210,7 +252,7 @@ describe('Post Reducer', () => {
       expect(newState2).toEqual({
         post: {
           loadingPosts: false,
-          loadingComments: false,
+          postErrors: undefined,
           nextPage: false,
           currentPage: -1,
           pageSize: 3,
@@ -220,17 +262,20 @@ describe('Post Reducer', () => {
             content: "test content",
             id: 1,
             dateCreated: "2/7/2021",
-            created_by: {
+            createdBy: {
               id: 1,
               name: "Test name"
             },
             commentsById: {},
             commentsOrder: [],
+            commentsErrors: undefined,
           }
         },
         order: []
       });
+    });
 
+    it('Checking posts creation failed', () => {
       const newState3 = postReducer(undefined, {
         type: types.CREATED_POST_FAILED,
         payload: {
@@ -240,7 +285,7 @@ describe('Post Reducer', () => {
       expect(newState3).toEqual({
         post: {
           loadingPosts: false,
-          loadingComments: false,
+          postErrors: undefined,
           nextPage: false,
           currentPage: -1,
           pageSize: 3,
@@ -248,7 +293,191 @@ describe('Post Reducer', () => {
         byId: {},
         order: []
       });
-
     });
 
+    it('Checking comment creation', () => {
+      const newState = postReducer({
+        byId: {
+        1:  {
+          id: 1,
+          content: "Content test text",
+          dateCreated: "2/7/2021",
+          commentsById: {},
+          commentsOrder: [],
+          commentsErrors: undefined,
+          loadingComments: false,            
+          createdBy: {
+            id: 1,
+            name: "Test name"
+          },
+        },
+        },
+        order: [1]
+      }, {
+        type: types.COMMENTED_POST,
+        payload: {
+          content: "test content",
+          randomId: 2,
+          postId: 1,
+        }
+      });
+      expect(newState).toEqual({
+        post: {
+          loadingPosts: false,
+          postErrors: undefined,
+          nextPage: false,
+          currentPage: -1,
+          pageSize: 3,
+        },
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                content: "test content"
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      });
+    });
+
+    it('Checking comment creation succeeded', () => {
+      const newState = postReducer({
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                content: "test content"
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      }, {
+        type: types.COMMENTED_POST_SUCCEEDED,
+        payload: {
+          content: "test content",
+          dateCreated: "2/7/2021",
+          createdBy: {
+            id: 1,
+            name: "Test name"
+          },
+          id: 3,
+          randomId: 2,
+          postId: 1,
+        }
+      });
+      expect(newState).toEqual({
+        post: {
+          loadingPosts: false,
+          postErrors: undefined,
+          nextPage: false,
+          currentPage: -1,
+          pageSize: 3,
+        },
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                dateCreated: "2/7/2021",
+                content: "test content",
+                id: 3,
+                createdBy: {
+                  id: 1,
+                  name: "Test name"
+                },
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      });
+    });
+
+    it('Checking comment creation failed', () => {
+      const newState = postReducer({
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {
+              2: {
+                content: "test content"
+              }
+            },
+            commentsOrder: [2],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      }, {
+        type: types.COMMENTED_POST_FAILED,
+        payload: {
+          randomId: 2,
+          postId: 1,
+        }
+      });
+      expect(newState).toEqual({
+        post: {
+          loadingPosts: false,
+          postErrors: undefined,
+          nextPage: false,
+          currentPage: -1,
+          pageSize: 3,
+        },
+        byId: {
+          1:  {
+            id: 1,
+            content: "Content test text",
+            dateCreated: "2/7/2021",
+            commentsById: {},
+            commentsOrder: [],
+            commentsErrors: undefined,
+            loadingComments: false,            
+            createdBy: {
+              id: 1,
+              name: "Test name"
+            },
+          },
+        },
+        order: [1]
+      });
+    });
 });

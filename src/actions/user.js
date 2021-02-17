@@ -107,9 +107,7 @@ export const fetchProfileInfoConfirm = ({
   email,
   name,
   city,
-  visitors,
   gender,
-  feeling,
   dateCreated,
 }) => ({
   type: types.FETCHED_USER_PROFILE_SUCCEEDED,
@@ -118,9 +116,7 @@ export const fetchProfileInfoConfirm = ({
     email,
     name,
     city,
-    visitors,
     gender,
-    feeling,
     dateCreated,
   },
 });
