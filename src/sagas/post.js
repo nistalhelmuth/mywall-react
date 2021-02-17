@@ -3,7 +3,6 @@ import {
   takeLatest,
   call,
   select,
-  delay,
 } from 'redux-saga/effects';
 import {
   getUserToken,
@@ -15,7 +14,7 @@ import * as postActions from '../actions/post';
 import * as userActions from '../actions/user';
 import * as postApi from '../apis/post';
 
-function* postFetcher(action) {
+export function* postFetcher(action) {
   const {
     payload: {
       profileId,
@@ -23,7 +22,6 @@ function* postFetcher(action) {
   } = action;
   const currentPage = yield select(getCurrentPage);
   const pageSize = yield select(getPageSize);
-  yield delay(500);
   try {
     const {
       response,
@@ -47,7 +45,6 @@ function* postFetcher(action) {
       }));
     }
     if (logout) {
-      alert("Your session has expired");
       yield put(userActions.doLogout())
     }
   } catch (error) {
@@ -57,13 +54,12 @@ function* postFetcher(action) {
   }
 }
 
-function* commentsFetcher(action) {
+export function* commentsFetcher(action) {
   const {
     payload: {
       postId,
     },
   } = action;
-  yield delay(500);
   try {
     const {
       response,
@@ -85,7 +81,6 @@ function* commentsFetcher(action) {
       }));
     }
     if (logout) {
-      alert("Your session has expired");
       yield put(userActions.doLogout())
     }
   } catch (error) {
@@ -96,7 +91,7 @@ function* commentsFetcher(action) {
   }
 }
 
-function* postCreator(action) {
+export function* postCreator(action) {
   const {
     payload: {
       content,
@@ -104,7 +99,6 @@ function* postCreator(action) {
     },
   } = action;
   const token = yield select(getUserToken);
-  yield delay(500);
   try {
     const {
       response,
@@ -130,7 +124,6 @@ function* postCreator(action) {
       }));
     }
     if (logout) {
-      alert("Your session has expired");
       yield put(userActions.doLogout())
     }
   } catch (error) {
@@ -141,7 +134,7 @@ function* postCreator(action) {
   }
 }
 
-function* commentCreator(action) {
+export function* commentCreator(action) {
   const {
     payload: {
       postId,
@@ -150,7 +143,6 @@ function* commentCreator(action) {
     },
   } = action;
   const token = yield select(getUserToken);
-  yield delay(500);
   try {
     const {
       response,
@@ -179,7 +171,6 @@ function* commentCreator(action) {
       }));
     }
     if (logout) {
-      alert("Your session has expired");
       yield put(userActions.doLogout())
     }
   } catch (error) {

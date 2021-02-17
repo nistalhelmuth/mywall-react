@@ -96,6 +96,7 @@ const Header = ({
                   {
                     registerCamps.map((camp) => (
                         <FormInput
+                          key={camp.id}
                           handleBlur={handleBlur}
                           name={camp.id}
                           onChange={handleChange}

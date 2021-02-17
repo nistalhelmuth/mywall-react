@@ -14,7 +14,10 @@ const FormInput = ({
   bigStyles,
   options,
 }) => (
-  <div className={bigStyles ? `${styles.formInput} ${styles.big}` : styles.formInput}>
+  <div
+    data-test="postFormComponent"
+    className={bigStyles ? `${styles.formInput} ${styles.big}` : styles.formInput}
+  >
     {
       label && (
         <label>
@@ -56,7 +59,10 @@ const FormInput = ({
           <option />
           {
             options.map((option) => (
-              <option value={option.value}>{option.label}</option>
+              <option
+                value={option.value}
+                key={option.value}
+              >{option.label}</option>
 
             ))
           }
@@ -81,7 +87,7 @@ const FormInput = ({
 
 FormInput.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   error: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string,

@@ -12,23 +12,55 @@ describe('User Reducer', () => {
       const newState = userReducer(undefined, {
         type: types.USER_REGISTERED_FAILED,
         payload: {
-          error: "ERROR",
+          message: {
+            other: "error testing",
+          }
         }
       });
       expect(newState).toEqual({
-        registerErrors: "ERROR"
+        profileId: undefined,
+        email: undefined,
+        name: undefined,
+        city: undefined,
+        gender: undefined,
+        dateCreated: undefined,
+        loading: false,
+        registerErrors: {
+          email: undefined,
+          name: undefined,
+          city: undefined,
+          gender: undefined,
+          password: undefined,
+          other: "error testing",
+        }
       });
     });
+
     it('Checking logged in decline', () => {
       const newState = userReducer(undefined, {
         type: types.USER_LOGED_IN_FAILED,
         payload: {
-          error: "ERROR",
-          
+          message: {
+            other: "error testing",
+          }
         }
       });
       expect(newState).toEqual({
-        registerErrors: "ERROR"
+        profileId: undefined,
+        email: undefined,
+        name: undefined,
+        city: undefined,
+        gender: undefined,
+        dateCreated: undefined,
+        loading: false,
+        registerErrors: {
+          email: undefined,
+          name: undefined,
+          city: undefined,
+          gender: undefined,
+          password: undefined,
+          other: "error testing",
+        }
       });
     });
 
@@ -40,7 +72,7 @@ describe('User Reducer', () => {
           email: "test@test.com",
           name: "test",
           city: "test city",
-          genre: "M",
+          gender: "M",
           dateCreated: "2021-02-07T19:25:24Z",
         }
       });
@@ -49,7 +81,8 @@ describe('User Reducer', () => {
         email: "test@test.com",
         name: "test",
         city: "test city",
-        genre: "Male",
+        gender: "Male",
+        loading: false,
         dateCreated: "2/7/2021"
       });
     });

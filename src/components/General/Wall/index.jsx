@@ -51,7 +51,7 @@ class Wall extends Component {
       <div className={styles.wall} data-test="wallComponent">
         {
           enabledPost && (
-            <PostForm onSubmit={createPost}/>
+            <PostForm data-test="postFormComponent" onSubmit={createPost}/>
           )
         }
         {

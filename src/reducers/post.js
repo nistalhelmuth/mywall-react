@@ -203,13 +203,14 @@ const byId = (state={}, action) => {
         const date = new Date(post.date_created);
         postByIdState[post.id] = {
           ...postByIdState[post.id],
-          ...post,
+          content: post.content,
+          id: post.id,
           createdBy: post.created_by,
           dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
           commentsById: {},
           commentsOrder: [],
           loadingComments: false,
-          commentsErrors: false,
+          commentsErrors: undefined,
         }
       });
       return postByIdState;
@@ -259,7 +260,8 @@ const byId = (state={}, action) => {
         const date = new Date(comment.date_created);
         commentsById[comment.id] = {
           ...commentsById[comment.id],
-          ...comment,
+          id: comment.id,
+          content: comment.content,
           createdBy: comment.created_by,
           dateCreated: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
         }
@@ -339,8 +341,8 @@ export const getIfNextPage = (state) => state.post.nextPage;
 export const getCurrentPage = (state) => state.post.currentPage;
 export const getPageSize = (state) => state.post.pageSize;
 export const getPostLoading = (state) => state.post.loadingPosts;
-export const getCommentLoading = (state, postId) => getPostById(state, postId).loadingComments;
-export const getCommentErrorMessage = (state, postId) => getPostById(state, postId).commentsErrors;
+export const getCommentLoading = (state, postId) => getPostById(state, postId) ? getPostById(state, postId).loadingComments : undefined;
+export const getCommentErrorMessage = (state, postId) => getPostById(state, postId) ? getPostById(state, postId).commentsErrors : undefined;
 export const getAllPosts = (state) => state.order.map((id) => getPostById(state, id));
 export const getPostById = (state, id) => state.byId[id] || undefined; 
 export const getCommentById = (state, postId, commentId) => state.byId[postId] ? state.byId[postId].commentsById[commentId] : undefined;

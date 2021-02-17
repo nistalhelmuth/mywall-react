@@ -10,7 +10,15 @@ import styles from './register.module.css';
 
 export const customPropTypes = {
   doRegister: PropTypes.func.isRequired,
-  stateErrors: PropTypes.object,
+  stateErrors: PropTypes.shape({
+    email: PropTypes.string,
+    name: PropTypes.string,
+    city: PropTypes.string,
+    gender: PropTypes.string,
+    password: PropTypes.string,
+    other: PropTypes.string,
+  }),
+  userLoading: PropTypes.bool.isRequired,
 }
 
 const SignupSchema = Yup.object().shape({
@@ -86,7 +94,10 @@ const Register = ({
   stateErrors,
   userLoading,
 }) => (
-  <div className={styles.register}>
+  <div
+    className={styles.register}
+    data-test="registerComponent"
+  >
     <Formik 
       initialValues={{
         email: undefined,
@@ -128,6 +139,7 @@ const Register = ({
               {
                 registerCamps.map((camp) => (
                   <FormInput
+                    key={camp.id}
                     bigStyles
                     error={touched[camp.id] && (errors[camp.id] || (stateErrors && stateErrors[camp.id]))}
                     handleBlur={handleBlur}
