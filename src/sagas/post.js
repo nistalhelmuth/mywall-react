@@ -41,7 +41,7 @@ export function* postFetcher(action) {
       }));
     } else {
       yield put(postActions.fetchAllPostsDecline({
-        message: response,
+        message: response && response.detail ? response.detail : "Something went wrong :(",
       }));
     }
     if (logout) {
@@ -76,7 +76,7 @@ export function* commentsFetcher(action) {
       }));
     } else {
       yield put(postActions.fetchAllCommentsDecline({
-        message: response,
+        message: response && response.detail ? response.detail : "Something went wrong :(",
         postId,
       }));
     }
@@ -120,7 +120,7 @@ export function* postCreator(action) {
     } else {
       yield put(postActions.createPostDecline({
         randomId,
-        message: response,
+        message: response && response.detail ? response.detail : "Something went wrong :(",
       }));
     }
     if (logout) {
@@ -165,7 +165,7 @@ export function* commentCreator(action) {
       }));
     } else {
       yield put(postActions.commentPostDecline({
-        message: response,
+        message: response && response.detail ? response.detail : "Something went wrong :(",
         postId,
         randomId,
       }));

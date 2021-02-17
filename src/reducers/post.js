@@ -4,6 +4,7 @@ import * as postTypes from '../types/post';
 export const postDefaultState = {
   loadingPosts: false,
   postErrors: undefined,
+  wallErrors: undefined,
   nextPage: false,
   currentPage: -1,
   pageSize: 3,
@@ -37,6 +38,18 @@ const post = (state = postDefaultState, action) => {
         currentPage,
         loadingPosts: false,
         postErrors: undefined,
+      }
+    }
+    case postTypes.CREATED_POST_FAILED: {
+      const {
+        payload: {
+          message,
+        },
+      } = action;
+      return {
+        ...state,
+        loadingPosts: false,
+        wallErrors: message,
       }
     }
     case postTypes.FETCHED_ALL_POSTS_FAILED: {
@@ -173,7 +186,8 @@ const byId = (state={}, action) => {
       const {
         payload: {
           postId,
-          randomId
+          randomId,
+          message,
         } 
       } = action;
       const oldPost = state[postId];
@@ -181,7 +195,10 @@ const byId = (state={}, action) => {
       oldPost.commentsOrder.shift();
       const postByIdState = {
         ...state,
-        [postId]: oldPost,
+        [postId]: {
+          ...oldPost,
+          commentsErrors: message,
+        },
       }
       return postByIdState;
     }
@@ -337,6 +354,7 @@ export default combineReducers({
 })
 
 //selectores
+export const getWallErrors = (state) => state.post.wallErrors;
 export const getPostErrors = (state) => state.post.postErrors;
 export const getIfNextPage = (state) => state.post.nextPage;
 export const getCurrentPage = (state) => state.post.currentPage;

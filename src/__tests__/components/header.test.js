@@ -19,9 +19,13 @@ describe('Header Component', () => {
     let component;
     beforeEach(() => {
       component = setUp({
-        doLogin: jest.fn(),
-        doLogout: jest.fn(),
-        history: jest.fn(),
+        props: {
+          doLogin: jest.fn(),
+          doLogout: jest.fn(),
+          history: {
+            push: jest.fn(),
+          }
+        }
       }); 
     });
   
@@ -37,7 +41,9 @@ describe('Header Component', () => {
       props: {
         doLogin: jest.fn(),
         doLogout: jest.fn(),
-        history: jest.fn(),
+        history: {
+          push: jest.fn(),
+        },
         authorized: true,
       }
     }); 
@@ -55,7 +61,9 @@ describe('Header Component', () => {
         props: {
           doLogin: jest.fn(),
           doLogout: jest.fn(),
-          history: jest.fn(),
+          history: {
+            push: jest.fn(),
+          }
         }
       }); 
     });
@@ -65,7 +73,9 @@ describe('Header Component', () => {
           authorized: true,
           doLogin: jest.fn(),
           doLogout: jest.fn(),
-          history: jest.fn(),
+          history: {
+            push: jest.fn(),
+          },
         };
         const propsErr = checkProps(component, expectedProps)
         expect(propsErr).toBeUndefined();

@@ -16,14 +16,14 @@ import styles from './header.module.css';
 export const customPropTypes = {
   authorized: PropTypes.bool,
   doLogin: PropTypes.func.isRequired,
-  history: PropTypes.func.isRequired,
+  history: PropTypes.object,
   stateErrors: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
+    email: PropTypes.string,
+    password: PropTypes.string,
   }),
   name: PropTypes.string,
   doLogout: PropTypes.func.isRequired,
-  authId: PropTypes.string,
+  authId: PropTypes.number,
 }
 
 const SignupSchema = Yup.object().shape({
@@ -80,8 +80,8 @@ const Header = ({
         <Formik 
           data-test="unAuthorizedComponent"
           initialValues={{
-            email: undefined,
-            password: undefined,
+            email: '',
+            password: '',
           }}
           validationSchema={SignupSchema}
           onSubmit={(values) => {
